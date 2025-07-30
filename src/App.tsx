@@ -40,6 +40,14 @@ function App() {
     setProcessingOptions(prev => ({ ...prev, platforms }));
   }, []);
   
+  // Clear processed icons when new file is uploaded
+  React.useEffect(() => {
+    if (fileUpload.finalImageData) {
+      setProcessedIcons([]);
+      setZipPackage(null);
+    }
+  }, [fileUpload.finalImageData]);
+  
   const handleProcessingOptionsChange = useCallback((options: ProcessingOptions) => {
     setProcessingOptions(options);
   }, []);
@@ -98,12 +106,8 @@ function App() {
     URL.revokeObjectURL(url);
   }, []);
   
-  // Auto-process when final image data and platforms are ready
-  React.useEffect(() => {
-    if (fileUpload.finalImageData && selectedPlatforms.length > 0 && !imageProcessor.status.isProcessing) {
-      handleProcessImage();
-    }
-  }, [fileUpload.finalImageData, selectedPlatforms, handleProcessImage, imageProcessor.status.isProcessing]);
+  // Remove auto-processing to prevent infinite loops
+  // Users will manually trigger processing with a button
   
   const canProcess = fileUpload.finalImageData && selectedPlatforms.length > 0;
   const isProcessingDisabled = imageProcessor.status.isProcessing || fileUpload.isLoading;
@@ -159,72 +163,104 @@ function App() {
                   />
                 </div>
               
-              {/* Platform Selection */}
-              <div className="card">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  2. Select Platforms
-                </h3>
-                <PlatformSelector
-                  selectedPlatforms={selectedPlatforms}
-                  onPlatformChange={handlePlatformChange}
-                  disabled={isProcessingDisabled}
-                />
-              </div>
+                              {/* Platform Selection - only show when we have an image */}
+                {fileUpload.finalImageData && (
+                  <div className="card">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      2. Select Platforms
+                    </h3>
+                    <PlatformSelector
+                      selectedPlatforms={selectedPlatforms}
+                      onPlatformChange={handlePlatformChange}
+                      disabled={isProcessingDisabled}
+                    />
+                  </div>
+                )}
               
               {/* Customization */}
-              <div className="card">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  3. Customize (Optional)
-                </h3>
-                <CustomizationPanel
-                  options={processingOptions}
-                  onOptionsChange={handleProcessingOptionsChange}
-                  disabled={isProcessingDisabled}
-                />
-              </div>
+                              {/* Customization Panel - only show when we have an image */}
+                {fileUpload.finalImageData && (
+                  <div className="card">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      3. Customize (Optional)
+                    </h3>
+                    <CustomizationPanel
+                      options={processingOptions}
+                      onOptionsChange={handleProcessingOptionsChange}
+                      disabled={isProcessingDisabled}
+                    />
+                  </div>
+                )}
               
-              {/* Manual Process Button (if auto-processing fails) */}
-              {canProcess && !imageProcessor.status.isProcessing && processedIcons.length === 0 && (
-                <button
-                  onClick={handleProcessImage}
-                  disabled={isProcessingDisabled}
-                  className="w-full btn-primary py-3"
-                >
-                  Generate Icons
-                </button>
-              )}
+                              {/* Generate Icons Button */}
+                {canProcess && !imageProcessor.status.isProcessing && (
+                  <div className="card">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      4. Generate Icons
+                    </h3>
+                    <button
+                      onClick={handleProcessImage}
+                      disabled={isProcessingDisabled}
+                      className="w-full btn-primary py-3 text-lg"
+                    >
+                      🚀 Generate App Icons
+                    </button>
+                    <p className="text-sm text-gray-500 mt-2 text-center">
+                      This will create {selectedPlatforms.includes('iOS') ? '8 iOS' : ''} 
+                      {selectedPlatforms.includes('iOS') && selectedPlatforms.includes('Android') ? ' + ' : ''}
+                      {selectedPlatforms.includes('Android') ? '6 Android' : ''} icon sizes
+                    </p>
+                  </div>
+                )}
             </div>
             
-            {/* Right Column - Results */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Processing Status */}
-              <ProcessingStatus
-                status={imageProcessor.status}
-                onCancel={imageProcessor.cancelProcessing}
-              />
-              
-              {/* Preview Grid */}
-              {(processedIcons.length > 0 || imageProcessor.status.isProcessing) && (
-                <div className="card">
-                  <PreviewGrid
-                    icons={processedIcons}
-                    onDownloadIcon={handleDownloadIcon}
+                          {/* Right Column - Results */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Show a preview of the uploaded image */}
+                {fileUpload.finalImageData && !imageProcessor.status.isProcessing && processedIcons.length === 0 && (
+                  <div className="card text-center">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                      Ready to Process
+                    </h3>
+                    <div className="inline-block p-4 bg-gray-50 rounded-lg">
+                      <p className="text-gray-600">
+                        ✅ Image uploaded and ready<br/>
+                        📱 Select platforms and click "Generate Icons" to continue
+                      </p>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Processing Status */}
+                {imageProcessor.status.isProcessing && (
+                  <ProcessingStatus
+                    status={imageProcessor.status}
+                    onCancel={imageProcessor.cancelProcessing}
                   />
-                </div>
-              )}
-              
-              {/* Download Section */}
-              {processedIcons.length > 0 && (
-                <DownloadSection
-                  icons={processedIcons}
-                  onGenerateZip={handleGenerateZip}
-                  onDownloadZip={handleDownloadZip}
-                  zipPackage={zipPackage}
-                  isGenerating={zipDownload.isGenerating}
-                  progress={zipDownload.progress}
-                />
-              )}
-            </div>
+                )}
+                
+                {/* Preview Grid */}
+                {processedIcons.length > 0 && (
+                  <div className="card">
+                    <PreviewGrid
+                      icons={processedIcons}
+                      onDownloadIcon={handleDownloadIcon}
+                    />
+                  </div>
+                )}
+                
+                {/* Download Section */}
+                {processedIcons.length > 0 && (
+                  <DownloadSection
+                    icons={processedIcons}
+                    onGenerateZip={handleGenerateZip}
+                    onDownloadZip={handleDownloadZip}
+                    zipPackage={zipPackage}
+                    isGenerating={zipDownload.isGenerating}
+                    progress={zipDownload.progress}
+                  />
+                )}
+              </div>
           </div>
           )}
         </div>
