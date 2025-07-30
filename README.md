@@ -10,6 +10,7 @@
 ## ✨ Features
 
 - 📱 **Multi-Platform Support**: Generate icons for iOS (8 sizes) and Android (6 sizes)
+- ✂️ **Smart Image Cropping**: Upload any size image with interactive cropping tool
 - 🎨 **Advanced Customization**: Padding control and background color picker
 - 👀 **Device Mockup Previews**: See how your icons look on real devices
 - ⚡ **Web Worker Processing**: Non-blocking image processing for smooth UX
@@ -116,9 +117,11 @@ src/
 ## 🎨 Key Features Deep Dive
 
 ### Image Processing
+- Interactive image cropping for non-square images
 - High-quality Canvas API resizing with Lanczos-like interpolation
 - iOS-specific processing (automatic opaque App Store icons)
 - Web Worker implementation for non-blocking performance
+- Support for multiple image formats (PNG, JPG, JPEG)
 
 ### User Experience
 - Drag-and-drop file upload with validation
@@ -134,10 +137,11 @@ src/
 
 ## 📄 Requirements
 
-- **Input**: PNG files only
-- **Size**: Exactly 1024×1024 pixels
+- **Input**: PNG, JPG, JPEG files
+- **Size**: Any size (minimum 200×200 pixels)
 - **File Size**: Maximum 10MB
-- **Quality**: High-resolution logos recommended
+- **Quality**: High-resolution images recommended
+- **Auto-Cropping**: Non-square images will show an interactive cropping tool
 
 ## 🤝 Contributing
 
