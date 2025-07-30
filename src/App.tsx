@@ -6,6 +6,7 @@ import { PLATFORM_PRESETS, PROCESSING_CONFIG } from './utils/constants';
 import { Header } from './components/Header';
 import { InfoSection } from './components/InfoSection';
 import { FileUpload } from './components/FileUpload';
+import { ImageCropper } from './components/ImageCropper';
 import { PlatformSelector } from './components/PlatformSelector';
 import { CustomizationPanel } from './components/CustomizationPanel';
 import { ProcessingStatus } from './components/ProcessingStatus';
@@ -44,7 +45,7 @@ function App() {
   }, []);
   
   const handleProcessImage = useCallback(async () => {
-    if (!fileUpload.imageData || selectedPlatforms.length === 0) return;
+    if (!fileUpload.finalImageData || selectedPlatforms.length === 0) return;
     
     try {
       setProcessedIcons([]); // Clear previous results
@@ -56,7 +57,7 @@ function App() {
       for (const platform of selectedPlatforms) {
         const platformSizes = PLATFORM_PRESETS[platform].sizes;
         const icons = await imageProcessor.processImage(
-          fileUpload.imageData,
+          fileUpload.finalImageData,
           platformSizes,
           processingOptions,
           platform
@@ -69,7 +70,7 @@ function App() {
     } catch (error) {
       console.error('Processing error:', error);
     }
-  }, [fileUpload.imageData, selectedPlatforms, processingOptions, imageProcessor]);
+  }, [fileUpload.finalImageData, selectedPlatforms, processingOptions, imageProcessor]);
   
   const handleGenerateZip = useCallback(async () => {
     if (processedIcons.length === 0) return;
@@ -97,14 +98,14 @@ function App() {
     URL.revokeObjectURL(url);
   }, []);
   
-  // Auto-process when file and platforms are ready
+  // Auto-process when final image data and platforms are ready
   React.useEffect(() => {
-    if (fileUpload.imageData && selectedPlatforms.length > 0 && !imageProcessor.status.isProcessing) {
+    if (fileUpload.finalImageData && selectedPlatforms.length > 0 && !imageProcessor.status.isProcessing) {
       handleProcessImage();
     }
-  }, [fileUpload.imageData, selectedPlatforms, handleProcessImage, imageProcessor.status.isProcessing]);
+  }, [fileUpload.finalImageData, selectedPlatforms, handleProcessImage, imageProcessor.status.isProcessing]);
   
-  const canProcess = fileUpload.imageData && selectedPlatforms.length > 0;
+  const canProcess = fileUpload.finalImageData && selectedPlatforms.length > 0;
   const isProcessingDisabled = imageProcessor.status.isProcessing || fileUpload.isLoading;
   
   return (
@@ -127,23 +128,36 @@ function App() {
           {/* Info Section */}
           <InfoSection />
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Left Column - Upload and Settings */}
-            <div className="lg:col-span-1 space-y-6">
-              {/* File Upload */}
-              <div className="card">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                  1. Upload Your Logo
-                </h3>
-                <FileUpload
-                  onFileSelect={fileUpload.handleFileSelect}
-                  file={fileUpload.file}
-                  onClear={fileUpload.clearFile}
-                  isLoading={fileUpload.isLoading}
-                  error={fileUpload.error}
-                  disabled={isProcessingDisabled}
-                />
-              </div>
+          {/* Cropping Step */}
+          {fileUpload.showCropper && fileUpload.imageInfo && (
+            <div className="mb-8">
+              <ImageCropper
+                image={fileUpload.imageInfo.image}
+                onCropChange={fileUpload.handleCropChange}
+                onConfirm={fileUpload.handleCropConfirm}
+                onCancel={fileUpload.handleCropCancel}
+              />
+            </div>
+          )}
+
+          {!fileUpload.showCropper && (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Left Column - Upload and Settings */}
+              <div className="lg:col-span-1 space-y-6">
+                {/* File Upload */}
+                <div className="card">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    1. Upload Your Logo
+                  </h3>
+                  <FileUpload
+                    onFileSelect={fileUpload.handleFileSelect}
+                    file={fileUpload.file}
+                    onClear={fileUpload.clearFile}
+                    isLoading={fileUpload.isLoading}
+                    error={fileUpload.error}
+                    disabled={isProcessingDisabled}
+                  />
+                </div>
               
               {/* Platform Selection */}
               <div className="card">
@@ -212,6 +226,7 @@ function App() {
               )}
             </div>
           </div>
+          )}
         </div>
       </main>
       

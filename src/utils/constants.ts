@@ -120,10 +120,9 @@ export const PLATFORM_PRESETS = {
 // File validation constants
 export const FILE_CONSTRAINTS = {
   MAX_SIZE: 10 * 1024 * 1024, // 10MB
-  REQUIRED_WIDTH: 1024,
-  REQUIRED_HEIGHT: 1024,
-  ALLOWED_TYPES: ['image/png'] as const,
-  ALLOWED_EXTENSIONS: ['.png'] as const
+  MIN_SIZE: 200, // Minimum width/height for meaningful cropping
+  ALLOWED_TYPES: ['image/png', 'image/jpeg', 'image/jpg'] as const,
+  ALLOWED_EXTENSIONS: ['.png', '.jpg', '.jpeg'] as const
 };
 
 // Processing constants

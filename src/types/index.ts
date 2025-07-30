@@ -37,6 +37,20 @@ export interface FileValidation {
   file?: File;
 }
 
+export interface CropArea {
+  x: number;
+  y: number;
+  size: number;
+}
+
+export interface ImageInfo {
+  file: File;
+  image: HTMLImageElement;
+  needsCropping: boolean;
+  cropArea?: CropArea;
+  processedImageData?: ImageData;
+}
+
 export interface ZipPackage {
   blob: Blob;
   filename: string;

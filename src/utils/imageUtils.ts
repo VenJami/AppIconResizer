@@ -9,7 +9,7 @@ export function validateFile(file: File): FileValidation {
   if (!FILE_CONSTRAINTS.ALLOWED_TYPES.includes(file.type as any)) {
     return {
       isValid: false,
-      error: 'Only PNG files are supported'
+      error: 'Only PNG, JPG, and JPEG files are supported'
     };
   }
   
@@ -34,10 +34,12 @@ export function validateImageDimensions(
   width: number,
   height: number
 ): { isValid: boolean; error?: string } {
-  if (width !== FILE_CONSTRAINTS.REQUIRED_WIDTH || height !== FILE_CONSTRAINTS.REQUIRED_HEIGHT) {
+  const minSize = FILE_CONSTRAINTS.MIN_SIZE;
+  
+  if (width < minSize || height < minSize) {
     return {
       isValid: false,
-      error: `Image must be exactly ${FILE_CONSTRAINTS.REQUIRED_WIDTH}x${FILE_CONSTRAINTS.REQUIRED_HEIGHT} pixels. Current: ${width}x${height}`
+      error: `Image must be at least ${minSize}x${minSize} pixels. Current: ${width}x${height}`
     };
   }
   
@@ -45,18 +47,11 @@ export function validateImageDimensions(
 }
 
 /**
- * Loads image file and extracts ImageData
+ * Loads image file and returns HTMLImageElement for further processing
  */
-export function loadImageData(file: File): Promise<ImageData> {
+export function loadImage(file: File): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    if (!ctx) {
-      reject(new Error('Canvas context not available'));
-      return;
-    }
     
     img.onload = () => {
       // Validate dimensions
@@ -66,12 +61,7 @@ export function loadImageData(file: File): Promise<ImageData> {
         return;
       }
       
-      canvas.width = img.width;
-      canvas.height = img.height;
-      ctx.drawImage(img, 0, 0);
-      
-      const imageData = ctx.getImageData(0, 0, img.width, img.height);
-      resolve(imageData);
+      resolve(img);
     };
     
     img.onerror = () => {
@@ -80,6 +70,38 @@ export function loadImageData(file: File): Promise<ImageData> {
     
     img.src = URL.createObjectURL(file);
   });
+}
+
+/**
+ * Extracts ImageData from a crop area of an image
+ */
+export function extractCropImageData(
+  img: HTMLImageElement,
+  cropX: number,
+  cropY: number,
+  cropSize: number
+): ImageData {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d')!;
+  
+  canvas.width = cropSize;
+  canvas.height = cropSize;
+  
+  // Draw the cropped area
+  ctx.drawImage(
+    img,
+    cropX, cropY, cropSize, cropSize, // Source crop area
+    0, 0, cropSize, cropSize // Destination
+  );
+  
+  return ctx.getImageData(0, 0, cropSize, cropSize);
+}
+
+/**
+ * Checks if an image needs cropping (not square)
+ */
+export function needsCropping(img: HTMLImageElement): boolean {
+  return img.width !== img.height;
 }
 
 /**

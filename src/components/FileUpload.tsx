@@ -73,14 +73,14 @@ export function FileUpload({
             ${error ? 'border-red-300 bg-red-50' : ''}
           `}
         >
-          <input
-            id="file-input"
-            type="file"
-            accept=".png"
-            onChange={handleFileInput}
-            className="hidden"
-            disabled={disabled || isLoading}
-          />
+                      <input
+              id="file-input"
+              type="file"
+              accept=".png,.jpg,.jpeg"
+              onChange={handleFileInput}
+              className="hidden"
+              disabled={disabled || isLoading}
+            />
           
           <div className="flex flex-col items-center space-y-4">
             {isLoading ? (
@@ -98,9 +98,9 @@ export function FileUpload({
               </p>
             </div>
             
-            <div className={`text-xs ${error ? 'text-red-600' : 'text-gray-400'}`}>
-              PNG files only • 1024×1024px • Max 10MB
-            </div>
+                      <div className={`text-xs ${error ? 'text-red-600' : 'text-gray-400'}`}>
+            PNG, JPG, JPEG files • Any size • Max 10MB
+          </div>
           </div>
           
           {isDragOver && !disabled && !isLoading && (
@@ -121,7 +121,7 @@ export function FileUpload({
                 {file.name}
               </p>
               <p className="text-sm text-gray-500">
-                {formatFileSize(file.size)} • 1024×1024px
+                {formatFileSize(file.size)}
               </p>
             </div>
             
