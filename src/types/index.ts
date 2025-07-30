@@ -12,7 +12,7 @@ export interface PlatformPreset {
 }
 
 export interface ProcessingOptions {
-  platforms: ('iOS' | 'Android')[];
+  selectedSizes: IconSize[];
   padding: number;
   backgroundColor: string;
 }

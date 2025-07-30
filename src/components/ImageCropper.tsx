@@ -188,7 +188,7 @@ export function ImageCropper({ image, onCropChange, onConfirm, onCancel }: Image
       </div>
       
       <div className="bg-gray-50 rounded-lg p-4 mb-6">
-        <div className="grid grid-cols-2 gap-4 text-sm">
+        <div className="grid grid-cols-2 gap-4 text-sm mb-4">
           <div>
             <span className="text-gray-500">Original Size:</span>
             <span className="ml-2 font-medium">{image.width}×{image.height}px</span>
@@ -196,6 +196,50 @@ export function ImageCropper({ image, onCropChange, onConfirm, onCancel }: Image
           <div>
             <span className="text-gray-500">Crop Size:</span>
             <span className="ml-2 font-medium">{Math.round(cropArea.size)}×{Math.round(cropArea.size)}px</span>
+          </div>
+        </div>
+        
+        {/* Preview of cropped area at different sizes */}
+        <div>
+          <h4 className="text-sm font-medium text-gray-700 mb-3">Preview at different icon sizes:</h4>
+          <div className="flex items-center space-x-4">
+            {[192, 120, 60, 32].map(size => (
+              <div key={size} className="text-center">
+                <div 
+                  className="border border-gray-300 rounded bg-white mx-auto mb-1"
+                  style={{ width: size / 4, height: size / 4 }}
+                >
+                  <canvas
+                    width={size / 4}
+                    height={size / 4}
+                    className="rounded"
+                    ref={canvas => {
+                      if (canvas && cropArea.size > 0) {
+                        const ctx = canvas.getContext('2d')!;
+                        ctx.clearRect(0, 0, size / 4, size / 4);
+                        
+                        // Calculate source crop area
+                        const sourceX = cropArea.x;
+                        const sourceY = cropArea.y;
+                        const sourceSize = cropArea.size;
+                        
+                        // Draw cropped area
+                        try {
+                          ctx.drawImage(
+                            image,
+                            sourceX, sourceY, sourceSize, sourceSize,
+                            0, 0, size / 4, size / 4
+                          );
+                        } catch (e) {
+                          // Ignore drawing errors during initialization
+                        }
+                      }
+                    }}
+                  />
+                </div>
+                <span className="text-xs text-gray-500">{size}px</span>
+              </div>
+            ))}
           </div>
         </div>
       </div>

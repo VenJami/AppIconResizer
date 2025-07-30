@@ -1,13 +1,13 @@
 import React, { useState, useCallback } from 'react';
-import type { Platform, ProcessingOptions, ProcessedIcon, ZipPackage } from './types';
-import { PLATFORM_PRESETS, PROCESSING_CONFIG } from './utils/constants';
+import type { IconSize, ProcessingOptions, ProcessedIcon, ZipPackage } from './types';
+import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 
 // Components
 import { Header } from './components/Header';
 import { InfoSection } from './components/InfoSection';
 import { FileUpload } from './components/FileUpload';
 import { ImageCropper } from './components/ImageCropper';
-import { PlatformSelector } from './components/PlatformSelector';
+import { SizeSelector } from './components/SizeSelector';
 import { CustomizationPanel } from './components/CustomizationPanel';
 import { ProcessingStatus } from './components/ProcessingStatus';
 import { PreviewGrid } from './components/PreviewGrid';
@@ -20,9 +20,9 @@ import { useZipDownload } from './hooks/useZipDownload';
 
 function App() {
   // State
-  const [selectedPlatforms, setSelectedPlatforms] = useState<Platform[]>(['iOS']);
+  const [selectedSizes, setSelectedSizes] = useState<IconSize[]>([]);
   const [processingOptions, setProcessingOptions] = useState<ProcessingOptions>({
-    platforms: ['iOS'],
+    selectedSizes: [],
     padding: PROCESSING_CONFIG.DEFAULT_PADDING,
     backgroundColor: PROCESSING_CONFIG.DEFAULT_BACKGROUND
   });
@@ -35,9 +35,9 @@ function App() {
   const zipDownload = useZipDownload();
   
   // Handlers
-  const handlePlatformChange = useCallback((platforms: Platform[]) => {
-    setSelectedPlatforms(platforms);
-    setProcessingOptions(prev => ({ ...prev, platforms }));
+  const handleSizeChange = useCallback((sizes: IconSize[]) => {
+    setSelectedSizes(sizes);
+    setProcessingOptions(prev => ({ ...prev, selectedSizes: sizes }));
   }, []);
   
   // Clear processed icons when new file is uploaded
@@ -53,7 +53,7 @@ function App() {
   }, []);
   
   const handleProcessImage = useCallback(async () => {
-    if (!fileUpload.finalImageData || selectedPlatforms.length === 0) return;
+    if (!fileUpload.finalImageData || selectedSizes.length === 0) return;
     
     try {
       setProcessedIcons([]); // Clear previous results
@@ -61,14 +61,32 @@ function App() {
       
       const allProcessedIcons: ProcessedIcon[] = [];
       
-      // Process each platform
-      for (const platform of selectedPlatforms) {
-        const platformSizes = PLATFORM_PRESETS[platform].sizes;
+      // Group sizes by platform
+      const iosSizes = selectedSizes.filter(size => 
+        iOS_SIZES.sizes.some(ios => ios.width === size.width && ios.height === size.height && ios.name === size.name)
+      );
+      const androidSizes = selectedSizes.filter(size => 
+        ANDROID_SIZES.sizes.some(android => android.width === size.width && android.height === size.height && android.name === size.name)
+      );
+      
+      // Process iOS sizes
+      if (iosSizes.length > 0) {
         const icons = await imageProcessor.processImage(
           fileUpload.finalImageData,
-          platformSizes,
+          iosSizes,
           processingOptions,
-          platform
+          'iOS'
+        );
+        allProcessedIcons.push(...icons);
+      }
+      
+      // Process Android sizes
+      if (androidSizes.length > 0) {
+        const icons = await imageProcessor.processImage(
+          fileUpload.finalImageData,
+          androidSizes,
+          processingOptions,
+          'Android'
         );
         allProcessedIcons.push(...icons);
       }
@@ -78,7 +96,7 @@ function App() {
     } catch (error) {
       console.error('Processing error:', error);
     }
-  }, [fileUpload.finalImageData, selectedPlatforms, processingOptions, imageProcessor]);
+  }, [fileUpload.finalImageData, selectedSizes, processingOptions, imageProcessor]);
   
   const handleGenerateZip = useCallback(async () => {
     if (processedIcons.length === 0) return;
@@ -109,7 +127,7 @@ function App() {
   // Remove auto-processing to prevent infinite loops
   // Users will manually trigger processing with a button
   
-  const canProcess = fileUpload.finalImageData && selectedPlatforms.length > 0;
+  const canProcess = fileUpload.finalImageData && selectedSizes.length > 0;
   const isProcessingDisabled = imageProcessor.status.isProcessing || fileUpload.isLoading;
   
   return (
@@ -163,15 +181,15 @@ function App() {
                   />
                 </div>
               
-                              {/* Platform Selection - only show when we have an image */}
+                              {/* Size Selection - only show when we have an image */}
                 {fileUpload.finalImageData && (
                   <div className="card">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                      2. Select Platforms
+                      2. Select Icon Sizes
                     </h3>
-                    <PlatformSelector
-                      selectedPlatforms={selectedPlatforms}
-                      onPlatformChange={handlePlatformChange}
+                    <SizeSelector
+                      selectedSizes={selectedSizes}
+                      onSizeChange={handleSizeChange}
                       disabled={isProcessingDisabled}
                     />
                   </div>
@@ -206,9 +224,7 @@ function App() {
                       🚀 Generate App Icons
                     </button>
                     <p className="text-sm text-gray-500 mt-2 text-center">
-                      This will create {selectedPlatforms.includes('iOS') ? '8 iOS' : ''} 
-                      {selectedPlatforms.includes('iOS') && selectedPlatforms.includes('Android') ? ' + ' : ''}
-                      {selectedPlatforms.includes('Android') ? '6 Android' : ''} icon sizes
+                      This will create {selectedSizes.length} icon{selectedSizes.length !== 1 ? 's' : ''} in total
                     </p>
                   </div>
                 )}
@@ -224,8 +240,8 @@ function App() {
                     </h3>
                     <div className="inline-block p-4 bg-gray-50 rounded-lg">
                       <p className="text-gray-600">
-                        ✅ Image uploaded and ready<br/>
-                        📱 Select platforms and click "Generate Icons" to continue
+                                              ✅ Image uploaded and ready<br/>
+                      📱 Select icon sizes and click "Generate Icons" to continue
                       </p>
                     </div>
                   </div>
