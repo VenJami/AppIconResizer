@@ -1,12 +1,12 @@
 import { useState, useCallback, useRef } from 'react';
-import type { ProcessedIcon, ProcessingOptions, ProcessingStatus, IconSize } from '../types';
+import type { ProcessedIcon, ProcessingOptions, ProcessingStatus, IconSize, Platform } from '../types';
 
 interface UseImageProcessorReturn {
   processImage: (
     imageData: ImageData,
     sizes: IconSize[],
     options: ProcessingOptions,
-    platform: 'iOS' | 'Android'
+    platform: Platform
   ) => Promise<ProcessedIcon[]>;
   status: ProcessingStatus;
   cancelProcessing: () => void;
@@ -37,7 +37,7 @@ export function useImageProcessor(): UseImageProcessorReturn {
     imageData: ImageData,
     sizes: IconSize[],
     options: ProcessingOptions,
-    platform: 'iOS' | 'Android'
+    platform: Platform
   ): Promise<ProcessedIcon[]> => {
     return new Promise((resolve, reject) => {
       // Clean up any existing worker

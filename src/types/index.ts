@@ -11,8 +11,13 @@ export interface PlatformPreset {
   sizes: IconSize[];
 }
 
+export interface CustomSize extends IconSize {
+  id: string;
+  isCustom: true;
+}
+
 export interface ProcessingOptions {
-  selectedSizes: IconSize[];
+  selectedSizes: (IconSize | CustomSize)[];
   padding: number;
   backgroundColor: string;
 }
@@ -58,5 +63,5 @@ export interface ZipPackage {
   totalSize: number;
 }
 
-export type Platform = 'iOS' | 'Android';
+export type Platform = 'iOS' | 'Android' | 'Custom';
 export type ProcessingStep = 'validating' | 'processing' | 'packaging' | 'complete' | 'error';

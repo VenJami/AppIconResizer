@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import type { IconSize, ProcessingOptions, ProcessedIcon, ZipPackage } from './types';
+import type { IconSize, CustomSize, ProcessingOptions, ProcessedIcon, ZipPackage } from './types';
 import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 
 // Components
@@ -20,7 +20,7 @@ import { useZipDownload } from './hooks/useZipDownload';
 
 function App() {
   // State
-  const [selectedSizes, setSelectedSizes] = useState<IconSize[]>([]);
+  const [selectedSizes, setSelectedSizes] = useState<(IconSize | CustomSize)[]>([]);
   const [processingOptions, setProcessingOptions] = useState<ProcessingOptions>({
     selectedSizes: [],
     padding: PROCESSING_CONFIG.DEFAULT_PADDING,
@@ -35,7 +35,7 @@ function App() {
   const zipDownload = useZipDownload();
   
   // Handlers
-  const handleSizeChange = useCallback((sizes: IconSize[]) => {
+  const handleSizeChange = useCallback((sizes: (IconSize | CustomSize)[]) => {
     setSelectedSizes(sizes);
     setProcessingOptions(prev => ({ ...prev, selectedSizes: sizes }));
   }, []);
@@ -63,11 +63,12 @@ function App() {
       
       // Group sizes by platform
       const iosSizes = selectedSizes.filter(size => 
-        iOS_SIZES.sizes.some(ios => ios.width === size.width && ios.height === size.height && ios.name === size.name)
+        !('isCustom' in size) && iOS_SIZES.sizes.some(ios => ios.width === size.width && ios.height === size.height && ios.name === size.name)
       );
       const androidSizes = selectedSizes.filter(size => 
-        ANDROID_SIZES.sizes.some(android => android.width === size.width && android.height === size.height && android.name === size.name)
+        !('isCustom' in size) && ANDROID_SIZES.sizes.some(android => android.width === size.width && android.height === size.height && android.name === size.name)
       );
+             const customSizes = selectedSizes.filter(size => 'isCustom' in size && size.isCustom) as CustomSize[];
       
       // Process iOS sizes
       if (iosSizes.length > 0) {
@@ -87,6 +88,17 @@ function App() {
           androidSizes,
           processingOptions,
           'Android'
+        );
+        allProcessedIcons.push(...icons);
+      }
+      
+      // Process Custom sizes
+      if (customSizes.length > 0) {
+        const icons = await imageProcessor.processImage(
+          fileUpload.finalImageData,
+          customSizes,
+          processingOptions,
+          'Custom'
         );
         allProcessedIcons.push(...icons);
       }
