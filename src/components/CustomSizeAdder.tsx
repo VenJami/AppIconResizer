@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { Plus, X, Check } from 'lucide-react';
-import type { CustomSize } from '../types';
+import type { CustomSize, IconSize } from '../types';
 
 interface CustomSizeAdderProps {
   onAddSize: (size: CustomSize) => void;
   onRemoveSize: (id: string) => void;
+  onSizeToggle: (size: CustomSize) => void;
   customSizes: CustomSize[];
+  selectedSizes: (IconSize | CustomSize)[];
   disabled?: boolean;
 }
 
 export function CustomSizeAdder({
   onAddSize,
   onRemoveSize,
+  onSizeToggle,
   customSizes,
+  selectedSizes,
   disabled = false
 }: CustomSizeAdderProps) {
   const [isAdding, setIsAdding] = useState(false);
@@ -57,6 +61,12 @@ export function CustomSizeAdder({
     const width = parseInt(newSize.width);
     const height = parseInt(newSize.height);
     return width >= 8 && height >= 8 && width <= 2048 && height <= 2048;
+  };
+
+  const isCustomSizeSelected = (size: CustomSize) => {
+    return selectedSizes.some(s => 
+      'isCustom' in s && s.isCustom && (s as CustomSize).id === size.id
+    );
   };
 
   return (
@@ -172,43 +182,68 @@ export function CustomSizeAdder({
       {/* Custom Sizes List */}
       {customSizes.length > 0 && (
         <div className="space-y-2">
-          {customSizes.map((size) => (
-            <div
-              key={size.id}
-              className="flex items-center justify-between p-3 bg-amber-50 border border-amber-200 rounded-lg"
-            >
-              <div className="flex items-center space-x-3">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-amber-100 rounded flex items-center justify-center">
-                    <span className="text-xs font-medium text-amber-700">C</span>
+          {customSizes.map((size) => {
+            const isSelected = isCustomSizeSelected(size);
+            return (
+              <div
+                key={size.id}
+                className={`flex items-center justify-between p-3 border rounded-lg transition-all duration-200 cursor-pointer ${
+                  isSelected 
+                    ? 'bg-amber-100 border-amber-300 ring-2 ring-amber-200' 
+                    : 'bg-amber-50 border-amber-200 hover:bg-amber-100'
+                }`}
+                onClick={() => !disabled && onSizeToggle(size)}
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="flex-shrink-0">
+                    <div className={`w-8 h-8 rounded flex items-center justify-center transition-colors duration-200 ${
+                      isSelected ? 'bg-amber-200' : 'bg-amber-100'
+                    }`}>
+                      {isSelected ? (
+                        <Check className="h-4 w-4 text-amber-700" />
+                      ) : (
+                        <span className="text-xs font-medium text-amber-700">C</span>
+                      )}
+                    </div>
+                  </div>
+                  
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center space-x-2">
+                      <h4 className={`text-sm font-medium truncate transition-colors duration-200 ${
+                        isSelected ? 'text-amber-900' : 'text-amber-800'
+                      }`}>
+                        {size.name}
+                      </h4>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium transition-colors duration-200 ${
+                        isSelected 
+                          ? 'bg-amber-200 text-amber-900' 
+                          : 'bg-amber-100 text-amber-800'
+                      }`}>
+                        {size.width}×{size.height}
+                      </span>
+                    </div>
+                    <p className={`text-xs truncate transition-colors duration-200 ${
+                      isSelected ? 'text-amber-800' : 'text-amber-700'
+                    }`}>
+                      {size.description}
+                    </p>
                   </div>
                 </div>
                 
-                <div className="min-w-0 flex-1">
-                  <div className="flex items-center space-x-2">
-                    <h4 className="text-sm font-medium text-amber-900 truncate">
-                      {size.name}
-                    </h4>
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
-                      {size.width}×{size.height}
-                    </span>
-                  </div>
-                  <p className="text-xs text-amber-700 truncate">
-                    {size.description}
-                  </p>
-                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onRemoveSize(size.id);
+                  }}
+                  disabled={disabled}
+                  className="flex-shrink-0 p-1.5 text-amber-400 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+                  title="Remove custom size"
+                >
+                  <X className="h-4 w-4" />
+                </button>
               </div>
-              
-              <button
-                onClick={() => onRemoveSize(size.id)}
-                disabled={disabled}
-                className="flex-shrink-0 p-1.5 text-amber-400 hover:text-amber-600 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
-                title="Remove custom size"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
       

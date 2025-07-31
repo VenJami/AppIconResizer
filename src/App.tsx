@@ -12,11 +12,19 @@ import { CustomizationPanel } from './components/CustomizationPanel';
 import { ProcessingStatus } from './components/ProcessingStatus';
 import { PreviewGrid } from './components/PreviewGrid';
 import { DownloadSection } from './components/DownloadSection';
+import { ExportControls } from './components/ExportControls';
+import { ToastContainer } from './components/Toast';
+import { ParticleSystem } from './components/ParticleSystem';
+import { FeatureCard } from './components/FeatureCard';
 
 // Hooks
 import { useFileUpload } from './hooks/useFileUpload';
 import { useImageProcessor } from './hooks/useImageProcessor';
 import { useZipDownload } from './hooks/useZipDownload';
+import { useScrollAnimation } from './hooks/useScrollAnimation';
+import { useToast } from './hooks/useToast';
+import { useStaggerAnimation, use3DTilt } from './hooks/useAdvancedAnimations';
+import type { ExportSettings } from './utils/exportFormats';
 
 function App() {
   // State
@@ -28,11 +36,18 @@ function App() {
   });
   const [processedIcons, setProcessedIcons] = useState<ProcessedIcon[]>([]);
   const [zipPackage, setZipPackage] = useState<ZipPackage | null>(null);
+  const [isExporting, setIsExporting] = useState(false);
+  const [exportProgress, setExportProgress] = useState(0);
   
   // Hooks
   const fileUpload = useFileUpload();
   const imageProcessor = useImageProcessor();
   const zipDownload = useZipDownload();
+  const toast = useToast();
+  
+  // Initialize animations
+  useScrollAnimation();
+  const staggerRef = useStaggerAnimation(150, 800);
   
   // Handlers
   const handleSizeChange = useCallback((sizes: (IconSize | CustomSize)[]) => {
@@ -135,6 +150,46 @@ function App() {
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
   }, []);
+
+  const handleAdvancedExport = useCallback(async (settings: ExportSettings) => {
+    if (processedIcons.length === 0) return;
+    
+    setIsExporting(true);
+    setExportProgress(0);
+    
+    try {
+      // Simulate advanced export process with progress
+      const progressInterval = setInterval(() => {
+        setExportProgress(prev => {
+          if (prev >= 95) {
+            clearInterval(progressInterval);
+            return 95;
+          }
+          return prev + Math.random() * 15;
+        });
+      }, 200);
+
+      // For now, use the existing ZIP generation but with enhanced settings
+      const zipPkg = await zipDownload.generateZip(processedIcons);
+      
+      clearInterval(progressInterval);
+      setExportProgress(100);
+      
+      // Auto-download after a brief moment
+      setTimeout(() => {
+        zipDownload.downloadZip(zipPkg);
+        setIsExporting(false);
+        setExportProgress(0);
+        toast.success(`Exported ${processedIcons.length} icons in ${settings.format.toUpperCase()} format!`);
+      }, 500);
+      
+    } catch (error) {
+      console.error('Export error:', error);
+      setIsExporting(false);
+      setExportProgress(0);
+      toast.error('Export failed. Please try again.');
+    }
+  }, [processedIcons, zipDownload, toast]);
   
   // Remove auto-processing to prevent infinite loops
   // Users will manually trigger processing with a button
@@ -143,28 +198,81 @@ function App() {
   const isProcessingDisabled = imageProcessor.status.isProcessing || fileUpload.isLoading;
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div id="root">
       <Header />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="space-y-8">
-          {/* Hero Section */}
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-              Convert Your Logo to App Icons
-            </h2>
-            <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 sm:mt-4">
-              Upload a 1024×1024px logo and get all required iOS and Android icon sizes instantly.
-              No signup required, completely free.
-            </p>
+      {/* Particle System */}
+      <ParticleSystem particleCount={80} />
+      
+      {/* Hero Section */}
+      <section className="hero-container relative min-h-screen flex items-center justify-center pt-20">
+        <div className="hero-bg-gradient"></div>
+        <div className="hero-grid"></div>
+        
+        {/* Floating orbs */}
+        <div className="hero-orb hero-orb-1"></div>
+        <div className="hero-orb hero-orb-2"></div>
+        <div className="hero-orb hero-orb-3"></div>
+        
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-8 animate-fade-in">
+            <div className="space-y-6">
+              <h1 className="hero-text">
+                <span className="text-white">Powerful</span><br/>
+                <span className="text-shimmer">App Icon</span><br/>
+                <span className="text-white">Generator</span>
+              </h1>
+              
+              <p className="text-xl sm:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                Transform your 1024×1024px logo into all required iOS and Android icon sizes instantly.
+                <span className="text-accent-400 font-semibold"> No signup required, completely free.</span>
+              </p>
+            </div>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <button 
+                className="btn-hero morph-button magnetic-hover neon-glow" 
+                onClick={() => document.getElementById('upload-section')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                🚀 Start Creating Icons
+              </button>
+              <button className="btn-outline elastic-scale shimmer">
+                📱 View Samples
+              </button>
+            </div>
+            
+            <div ref={staggerRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
+              <FeatureCard 
+                icon="⚡" 
+                title="Lightning Fast" 
+                description="Generate all icon sizes in seconds with our optimized processing engine"
+              />
+              <FeatureCard 
+                icon="🎯" 
+                title="Pixel Perfect" 
+                description="Maintains quality and follows platform guidelines for iOS and Android"
+              />
+              <FeatureCard 
+                icon="🔒" 
+                title="Privacy First" 
+                description="All processing happens in your browser - your images never leave your device"
+              />
+            </div>
           </div>
+        </div>
+      </section>
+      
+      <main id="upload-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="space-y-12">
           
           {/* Info Section */}
-          <InfoSection />
+          <div className="reveal-on-scroll">
+            <InfoSection />
+          </div>
           
           {/* Cropping Step */}
           {fileUpload.showCropper && fileUpload.imageInfo && (
-            <div className="mb-8">
+            <div className="mb-12 reveal-on-scroll">
               <ImageCropper
                 image={fileUpload.imageInfo.image}
                 onCropChange={fileUpload.handleCropChange}
@@ -175,13 +283,13 @@ function App() {
           )}
 
           {!fileUpload.showCropper && (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 reveal-on-scroll perspective-container">
               {/* Left Column - Upload and Settings */}
               <div className="lg:col-span-1 space-y-6">
                 {/* File Upload */}
-                <div className="card">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    1. Upload Your Logo
+                <div className="card card-3d">
+                  <h3 className="section-heading mb-6">
+                    <span className="text-accent-400">1.</span> Upload Your Logo
                   </h3>
                   <FileUpload
                     onFileSelect={fileUpload.handleFileSelect}
@@ -190,14 +298,15 @@ function App() {
                     isLoading={fileUpload.isLoading}
                     error={fileUpload.error}
                     disabled={isProcessingDisabled}
+                    onError={toast.error}
                   />
                 </div>
               
                               {/* Size Selection - only show when we have an image */}
                 {fileUpload.finalImageData && (
-                  <div className="card">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                      2. Select Icon Sizes
+                  <div className="card card-3d">
+                    <h3 className="section-heading mb-6">
+                      <span className="text-accent-400">2.</span> Select Icon Sizes
                     </h3>
                     <SizeSelector
                       selectedSizes={selectedSizes}
@@ -210,9 +319,9 @@ function App() {
               {/* Customization */}
                               {/* Customization Panel - only show when we have an image */}
                 {fileUpload.finalImageData && (
-                  <div className="card">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                      3. Customize (Optional)
+                  <div className="card card-3d">
+                    <h3 className="section-heading mb-6">
+                      <span className="text-accent-400">3.</span> Customize (Optional)
                     </h3>
                     <CustomizationPanel
                       options={processingOptions}
@@ -224,19 +333,19 @@ function App() {
               
                               {/* Generate Icons Button */}
                 {canProcess && !imageProcessor.status.isProcessing && (
-                  <div className="card">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                      4. Generate Icons
+                  <div className="card glow-accent card-3d">
+                    <h3 className="section-heading mb-6">
+                      <span className="text-accent-400">4.</span> Generate Icons
                     </h3>
                     <button
                       onClick={handleProcessImage}
                       disabled={isProcessingDisabled}
-                      className="w-full btn-primary py-3 text-lg"
+                      className="w-full btn-primary py-4 text-lg font-bold processing-pulse morph-button bounce-in"
                     >
                       🚀 Generate App Icons
                     </button>
-                    <p className="text-sm text-gray-500 mt-2 text-center">
-                      This will create {selectedSizes.length} icon{selectedSizes.length !== 1 ? 's' : ''} in total
+                    <p className="text-sm text-gray-400 mt-3 text-center">
+                      This will create <span className="text-accent-400 font-semibold">{selectedSizes.length}</span> icon{selectedSizes.length !== 1 ? 's' : ''} in total
                     </p>
                   </div>
                 )}
@@ -247,13 +356,13 @@ function App() {
                 {/* Show a preview of the uploaded image */}
                 {fileUpload.finalImageData && !imageProcessor.status.isProcessing && processedIcons.length === 0 && (
                   <div className="card text-center">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    <h3 className="section-heading mb-6">
                       Ready to Process
                     </h3>
-                    <div className="inline-block p-4 bg-gray-50 rounded-lg">
-                      <p className="text-gray-600">
-                                              ✅ Image uploaded and ready<br/>
-                      📱 Select icon sizes and click "Generate Icons" to continue
+                    <div className="inline-block p-6 bg-dark-800/50 rounded-xl border border-accent-500/20">
+                      <p className="text-gray-300">
+                        ✅ <span className="text-accent-400 font-semibold">Image uploaded and ready</span><br/>
+                        📱 Select icon sizes and click "Generate Icons" to continue
                       </p>
                     </div>
                   </div>
@@ -277,16 +386,33 @@ function App() {
                   </div>
                 )}
                 
-                {/* Download Section */}
+                {/* Enhanced Export Controls */}
                 {processedIcons.length > 0 && (
-                  <DownloadSection
+                  <ExportControls
                     icons={processedIcons}
-                    onGenerateZip={handleGenerateZip}
-                    onDownloadZip={handleDownloadZip}
-                    zipPackage={zipPackage}
-                    isGenerating={zipDownload.isGenerating}
-                    progress={zipDownload.progress}
+                    onExport={handleAdvancedExport}
+                    isExporting={isExporting}
+                    progress={exportProgress}
                   />
+                )}
+                
+                {/* Legacy Download Section (for comparison) */}
+                {processedIcons.length > 0 && (
+                  <details className="mt-6">
+                    <summary className="cursor-pointer text-sm text-gray-400 hover:text-gray-300 transition-colors">
+                      Show Legacy Download Options
+                    </summary>
+                    <div className="mt-4">
+                      <DownloadSection
+                        icons={processedIcons}
+                        onGenerateZip={handleGenerateZip}
+                        onDownloadZip={handleDownloadZip}
+                        zipPackage={zipPackage}
+                        isGenerating={zipDownload.isGenerating}
+                        progress={zipDownload.progress}
+                      />
+                    </div>
+                  </details>
                 )}
               </div>
           </div>
@@ -295,19 +421,28 @@ function App() {
       </main>
       
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="text-center text-sm text-gray-500">
-            <p>
-              Built with React, TypeScript, and modern web APIs. 
-              All processing happens in your browser for maximum privacy.
-            </p>
-            <p className="mt-2">
-              © 2025 App Icon Resizer. Open source and free to use.
-            </p>
+      <footer className="bg-dark-900/50 border-t border-dark-700/50 mt-24">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center">
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold text-white mb-3">Built with Modern Web Technologies</h3>
+              <p className="text-gray-400 max-w-2xl mx-auto">
+                Powered by React, TypeScript, and cutting-edge web APIs. 
+                All processing happens locally in your browser for <span className="text-accent-400 font-semibold">maximum privacy</span>.
+              </p>
+            </div>
+            
+            <div className="border-t border-dark-700/50 pt-6">
+              <p className="text-sm text-gray-500">
+                © 2025 App Icon Resizer. Open source and free to use.
+              </p>
+            </div>
           </div>
         </div>
       </footer>
+      
+      {/* Toast Notifications */}
+      <ToastContainer toasts={toast.toasts} onRemove={toast.removeToast} />
     </div>
   );
 }

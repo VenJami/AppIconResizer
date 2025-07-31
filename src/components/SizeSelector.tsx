@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import type { IconSize, CustomSize } from '../types';
 import { iOS_SIZES, ANDROID_SIZES } from '../utils/constants';
 import { Smartphone, Tablet, Check, Settings } from 'lucide-react';
@@ -18,7 +18,8 @@ export function SizeSelector({
   const [activeTab, setActiveTab] = useState<'all' | 'ios' | 'android' | 'custom'>('all');
   const [customSizes, setCustomSizes] = useState<CustomSize[]>([]);
 
-  const allSizes = [...iOS_SIZES.sizes, ...ANDROID_SIZES.sizes, ...customSizes];
+  // Reactive calculation of all sizes that updates when customSizes changes
+  const allSizes = React.useMemo(() => [...iOS_SIZES.sizes, ...ANDROID_SIZES.sizes, ...customSizes], [customSizes]);
   
   const getDisplaySizes = () => {
     switch (activeTab) {
@@ -36,20 +37,26 @@ export function SizeSelector({
   const handleSizeToggle = (size: IconSize | CustomSize) => {
     if (disabled) return;
     
-         const isSelected = selectedSizes.some(s => {
-       if ('isCustom' in size && size.isCustom && 'isCustom' in s && (s as CustomSize).isCustom) {
-         return (s as CustomSize).id === size.id; // Custom size comparison
-       }
-       return s.width === size.width && s.height === size.height && s.name === size.name;
-     });
+                  const isSelected = selectedSizes.some(s => {
+        if ('isCustom' in size && size.isCustom) {
+          if ('isCustom' in s && (s as CustomSize).isCustom) {
+            return (s as CustomSize).id === size.id; // Custom size comparison
+          }
+          return false; // Custom size not matching non-custom
+        }
+        return s.width === size.width && s.height === size.height && s.name === size.name;
+      });
     
     if (isSelected) {
-             const newSizes = selectedSizes.filter(s => {
-         if ('isCustom' in size && size.isCustom && 'isCustom' in s && (s as CustomSize).isCustom) {
-           return (s as CustomSize).id !== size.id; // Custom size removal
-         }
-         return !(s.width === size.width && s.height === size.height && s.name === size.name);
-       });
+                    const newSizes = selectedSizes.filter(s => {
+          if ('isCustom' in size && size.isCustom) {
+            if ('isCustom' in s && (s as CustomSize).isCustom) {
+              return (s as CustomSize).id !== size.id; // Custom size removal
+            }
+            return true; // Keep non-custom sizes
+          }
+          return !(s.width === size.width && s.height === size.height && s.name === size.name);
+        });
       onSizeChange(newSizes);
     } else {
       onSizeChange([...selectedSizes, size]);
@@ -146,6 +153,8 @@ export function SizeSelector({
 
   const handleAddCustomSize = (newSize: CustomSize) => {
     setCustomSizes(prev => [...prev, newSize]);
+    // Auto-select the newly added custom size
+    onSizeChange([...selectedSizes, newSize]);
   };
 
   const handleRemoveCustomSize = (id: string) => {
@@ -235,26 +244,49 @@ export function SizeSelector({
           </button>
         </div>
       )}
+      
+      {/* Custom Tab Quick Actions */}
+      {activeTab === 'custom' && customSizes.length > 0 && (
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleSelectAll('custom')}
+            disabled={disabled}
+            className="btn-secondary text-xs"
+          >
+            Select All Custom
+          </button>
+          <button
+            onClick={() => handleDeselectAll('custom')}
+            disabled={disabled}
+            className="btn-secondary text-xs"
+          >
+            Deselect All Custom
+          </button>
+        </div>
+      )}
 
       {/* Size Grid or Custom Size Adder */}
       {activeTab === 'custom' ? (
         <CustomSizeAdder
           onAddSize={handleAddCustomSize}
           onRemoveSize={handleRemoveCustomSize}
+          onSizeToggle={handleSizeToggle}
           customSizes={customSizes}
+          selectedSizes={selectedSizes}
           disabled={disabled}
         />
       ) : (
         <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
           {displaySizes.map((size, index) => {
-                                       const isSelected = selectedSizes.some(s => {
-                if ('isCustom' in size && size.isCustom && 'isCustom' in s) {
-                  const customS = s as CustomSize;
-                  const customSize = size as CustomSize;
-                  return customS.isCustom && customS.id === customSize.id;
-                }
-                return s.width === size.width && s.height === size.height && s.name === size.name;
-              });
+                                                      const isSelected = selectedSizes.some(s => {
+                 if ('isCustom' in size && size.isCustom) {
+                   if ('isCustom' in s && (s as CustomSize).isCustom) {
+                     return (s as CustomSize).id === (size as CustomSize).id;
+                   }
+                   return false; // Custom size not matching non-custom
+                 }
+                 return s.width === size.width && s.height === size.height && s.name === size.name;
+               });
             const Icon = getSizeIcon(size);
             const platform = getSizePlatform(size);
             
