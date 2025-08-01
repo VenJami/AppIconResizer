@@ -5,6 +5,7 @@ import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 // Components
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { FAQSection } from './components/FAQSection';
 import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { PerformanceOptimizer } from './components/PerformanceOptimizer';
 import { InfoSection } from './components/InfoSection';
@@ -448,8 +449,11 @@ function App() {
         </div>
       </main>
       
-      {/* Footer */}
-      <Footer />
+                {/* FAQ Section */}
+          <FAQSection />
+          
+          {/* Footer */}
+          <Footer />
       
       {/* Toast Notifications */}
       <ToastContainer toasts={toast.toasts} onRemove={toast.removeToast} />
