@@ -65,7 +65,7 @@ export const trackError = (errorType: string, errorMessage: string) => {
 
 export const trackPageView = (page: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-XXXXXXXXXX', {
+    window.gtag('config', 'G-631GXM1X67', {
       page_title: page,
       page_location: window.location.href + '#' + page
     });

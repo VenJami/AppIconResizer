@@ -202,7 +202,7 @@ function App() {
   
   return (
     <div id="root">
-      <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+      <GoogleAnalytics measurementId="G-631GXM1X67" />
       <PerformanceOptimizer />
       <Header />
       
