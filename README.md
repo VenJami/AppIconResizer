@@ -9,7 +9,7 @@
 
 ## ✨ Features
 
-- 📱 **Multi-Platform Support**: Generate icons for iOS (8 sizes) and Android (6 sizes)
+- 📱 **Multi-Platform Support**: Generate icons for iOS (18 sizes), Android (13 sizes), Apple Watch (8 sizes), and Smart Watch (6 sizes)
 - ✂️ **Smart Image Cropping**: Upload any size image with interactive cropping tool
 - 🎨 **Advanced Customization**: Padding control and background color picker
 - 👀 **Device Mockup Previews**: See how your icons look on real devices
@@ -32,23 +32,58 @@ Visit the live application: appiconresizer.com
 
 ## 📱 Supported Icon Sizes
 
-### iOS (8 sizes)
-- 1024×1024px - App Store icon (required)
-- 180×180px - iPhone Retina home screen
-- 167×167px - iPad Pro home screen
-- 152×152px - iPad Retina home screen
-- 120×120px - iPhone Spotlight
-- 87×87px - iPad Spotlight
-- 80×80px - iPad App Settings
-- 60×60px - iPhone App Settings
+### iOS (18 sizes)
+- 1024×1024px - App Store Marketing (required)
+- 180×180px - iPhone App Icon (@3x)
+- 120×120px - iPhone App Icon (@2x)
+- 120×120px - iPhone Spotlight (@3x)
+- 80×80px - iPhone Spotlight (@2x)
+- 87×87px - iPhone Settings (@3x)
+- 58×58px - iPhone Settings (@2x)
+- 60×60px - iPhone Notification (@3x)
+- 40×40px - iPhone Notification (@2x)
+- 152×152px - iPad App Icon (@2x)
+- 76×76px - iPad App Icon (@1x)
+- 167×167px - iPad Pro App Icon (@2x)
+- 80×80px - iPad Spotlight (@2x)
+- 40×40px - iPad Spotlight (@1x)
+- 58×58px - iPad Settings (@2x)
+- 29×29px - iPad Settings (@1x)
+- 40×40px - iPad Notification (@2x)
+- 20×20px - iPad Notification (@1x)
 
-### Android (6 sizes)
-- 512×512px - Google Play Store icon
-- 192×192px - XXXHDPI launcher icon
-- 144×144px - XXHDPI launcher
-- 96×96px - XHDPI devices
-- 72×72px - HDPI devices
-- 48×48px - MDPI legacy fallback
+### Android (13 sizes)
+- 512×512px - Play Store Icon
+- 432×432px - Adaptive Icon Foreground
+- 432×432px - Adaptive Icon Background
+- 192×192px - XXXHDPI Launcher
+- 144×144px - XXHDPI Launcher
+- 96×96px - XHDPI Launcher
+- 72×72px - HDPI Launcher
+- 48×48px - MDPI Launcher
+- 192×192px - XXXHDPI Round
+- 144×144px - XXHDPI Round
+- 96×96px - XHDPI Round
+- 72×72px - HDPI Round
+- 48×48px - MDPI Round
+
+### Apple Watch (8 sizes)
+- 1024×1024px - App Store Icon
+- 172×172px - Home Screen (@2x)
+- 88×88px - Home Screen (@2x, 38mm)
+- 87×87px - Home Screen (@2x, 42mm)
+- 80×80px - Home Screen (@2x, 40mm)
+- 92×92px - Home Screen (@2x, 44mm)
+- 102×102px - Home Screen (@2x, 41mm)
+- 120×120px - Home Screen (@2x, 45mm)
+
+### Smart Watch (6 sizes)
+- 512×512px - Play Store Icon
+- 192×192px - Wear OS Launcher (@2x)
+- 96×96px - Wear OS Launcher (@1x)
+- 48×48px - Wear OS Launcher (@0.5x)
+- 24×24px - Wear OS Launcher (@0.25x)
+- 16×16px - Wear OS Launcher (@0.125x)
 
 ## 🛠️ Technology Stack
 
