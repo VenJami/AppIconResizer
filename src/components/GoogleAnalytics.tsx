@@ -60,6 +60,7 @@ export const trackDownload = (fileCount: number) => {
 
 export const trackError = (errorType: string, errorMessage: string) => {
   trackEvent('error_occurred', 'error', errorType);
+  console.error(`Error tracked: ${errorType} - ${errorMessage}`);
 };
 
 export const trackPageView = (page: string) => {

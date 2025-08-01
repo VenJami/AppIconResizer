@@ -1,5 +1,23 @@
 import { useEffect } from 'react';
 
+// TypeScript interfaces for Performance API
+interface PerformanceEventTiming extends PerformanceEntry {
+  processingStart: number;
+  processingEnd: number;
+  target?: EventTarget;
+}
+
+interface LayoutShift extends PerformanceEntry {
+  value: number;
+  sources?: LayoutShiftAttribution[];
+}
+
+interface LayoutShiftAttribution {
+  node?: Node;
+  currentRect?: DOMRectReadOnly;
+  previousRect?: DOMRectReadOnly;
+}
+
 export function PerformanceOptimizer() {
   useEffect(() => {
     // Preload critical resources
@@ -25,10 +43,12 @@ export function PerformanceOptimizer() {
             console.log('LCP:', entry.startTime);
           }
           if (entry.entryType === 'first-input') {
-            console.log('FID:', entry.processingStart - entry.startTime);
+            const firstInputEntry = entry as PerformanceEventTiming;
+            console.log('FID:', firstInputEntry.processingStart - firstInputEntry.startTime);
           }
           if (entry.entryType === 'layout-shift') {
-            console.log('CLS:', entry.value);
+            const layoutShiftEntry = entry as LayoutShift;
+            console.log('CLS:', layoutShiftEntry.value);
           }
         }
       });
