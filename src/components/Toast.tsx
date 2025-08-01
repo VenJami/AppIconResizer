@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { X, CheckCircle, AlertCircle, Info, AlertTriangle } from 'lucide-react';
 import type { Toast } from '../hooks/useToast';
 

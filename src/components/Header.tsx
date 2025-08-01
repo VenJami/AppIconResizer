@@ -1,4 +1,4 @@
-import { Zap, Github, Heart, Sparkles } from 'lucide-react';
+import { Github, Heart, Sparkles } from 'lucide-react';
 
 export function Header() {
   return (

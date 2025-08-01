@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import { Upload, X, Image, AlertCircle, FileText, FileImage, File } from 'lucide-react';
+import { Upload, X, AlertCircle, FileText, FileImage, File } from 'lucide-react';
 import { formatFileSize } from '../utils/imageUtils';
 
 // Supported file types
-const SUPPORTED_FORMATS = {
+const SUPPORTED_FORMATS: Record<string, { name: string; icon: any; color: string }> = {
   'image/png': { name: 'PNG', icon: FileImage, color: 'text-blue-400' },
   'image/jpeg': { name: 'JPEG', icon: FileImage, color: 'text-green-400' },
   'image/jpg': { name: 'JPG', icon: FileImage, color: 'text-green-400' },

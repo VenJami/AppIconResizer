@@ -176,7 +176,7 @@ export class BatchExporter {
   private activeJobs = 0;
 
   addJob(job: Omit<BatchExportJob, 'id' | 'progress' | 'status'>): string {
-    const id = Math.random().toString(36).substr(2, 9);
+    const id = Math.random().toString(36).substring(2, 11);
     const fullJob: BatchExportJob = {
       ...job,
       id,
@@ -205,7 +205,7 @@ export class BatchExporter {
       // Simulate progress updates
       const progressInterval = setInterval(() => {
         if (pendingJob.progress < 90) {
-          pendingJob.progress += Math.random() * 20;
+          pendingJob.progress += (Math.random() * 20);
         }
       }, 100);
 

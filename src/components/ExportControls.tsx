@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from 'react';
-import { Download, Settings, Zap, Image as ImageIcon, FileType, Sliders } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { Download, Settings, FileType } from 'lucide-react';
 import { EXPORT_FORMATS, DEFAULT_EXPORT_SETTINGS, estimateFileSize, recommendFormat, type ExportSettings } from '../utils/exportFormats';
 import type { ProcessedIcon } from '../types';
 

@@ -14,8 +14,8 @@ import { PreviewGrid } from './components/PreviewGrid';
 import { DownloadSection } from './components/DownloadSection';
 import { ExportControls } from './components/ExportControls';
 import { ToastContainer } from './components/Toast';
-import { ParticleSystem } from './components/ParticleSystem';
-import { FeatureCard } from './components/FeatureCard';
+// import { ParticleSystem } from './components/ParticleSystem';
+// import { FeatureCard } from './components/FeatureCard';
 
 // Hooks
 import { useFileUpload } from './hooks/useFileUpload';
@@ -23,7 +23,7 @@ import { useImageProcessor } from './hooks/useImageProcessor';
 import { useZipDownload } from './hooks/useZipDownload';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import { useToast } from './hooks/useToast';
-import { useStaggerAnimation, use3DTilt } from './hooks/useAdvancedAnimations';
+// import { useStaggerAnimation } from './hooks/useAdvancedAnimations';
 import type { ExportSettings } from './utils/exportFormats';
 
 function App() {
@@ -47,7 +47,7 @@ function App() {
   
   // Initialize animations
   useScrollAnimation();
-  const staggerRef = useStaggerAnimation(150, 800);
+  // const staggerRef = useStaggerAnimation(150);
   
   // Handlers
   const handleSizeChange = useCallback((sizes: (IconSize | CustomSize)[]) => {
@@ -201,8 +201,13 @@ function App() {
     <div id="root">
       <Header />
       
-      {/* Particle System */}
-      <ParticleSystem particleCount={80} />
+      {/* Particle System - Adding CSS-only animated background */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-500/5 via-transparent to-blue-500/5"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-3/4 left-1/3 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '4s' }}></div>
+      </div>
       
       {/* Hero Section */}
       <section className="hero-container relative min-h-screen flex items-center justify-center pt-20">
@@ -241,22 +246,40 @@ function App() {
               </button>
             </div>
             
-            <div ref={staggerRef} className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
-              <FeatureCard 
-                icon="⚡" 
-                title="Lightning Fast" 
-                description="Generate all icon sizes in seconds with our optimized processing engine"
-              />
-              <FeatureCard 
-                icon="🎯" 
-                title="Pixel Perfect" 
-                description="Maintains quality and follows platform guidelines for iOS and Android"
-              />
-              <FeatureCard 
-                icon="🔒" 
-                title="Privacy First" 
-                description="All processing happens in your browser - your images never leave your device"
-              />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 max-w-4xl mx-auto">
+              <div className="feature-card card-glass text-center group relative overflow-hidden animate-fade-in transform-gpu hover:scale-105 transition-all duration-500">
+                <div className="text-4xl mb-6 transform group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                  ⚡
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent-400 transition-colors duration-300">
+                  Lightning Fast
+                </h3>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                  Generate all icon sizes in seconds with our optimized processing engine
+                </p>
+              </div>
+              <div className="feature-card card-glass text-center group relative overflow-hidden animate-fade-in transform-gpu hover:scale-105 transition-all duration-500" style={{ animationDelay: '0.2s' }}>
+                <div className="text-4xl mb-6 transform group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                  🎯
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent-400 transition-colors duration-300">
+                  Pixel Perfect
+                </h3>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                  Maintains quality and follows platform guidelines for iOS and Android
+                </p>
+              </div>
+              <div className="feature-card card-glass text-center group relative overflow-hidden animate-fade-in transform-gpu hover:scale-105 transition-all duration-500" style={{ animationDelay: '0.4s' }}>
+                <div className="text-4xl mb-6 transform group-hover:scale-110 transition-all duration-500 group-hover:rotate-6">
+                  🔒
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent-400 transition-colors duration-300">
+                  Privacy First
+                </h3>
+                <p className="text-gray-400 group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                  All processing happens in your browser - your images never leave your device
+                </p>
+              </div>
             </div>
           </div>
         </div>
