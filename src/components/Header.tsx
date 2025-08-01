@@ -1,4 +1,4 @@
-import { Github, Heart, Linkedin, Mail, MessageCircle } from 'lucide-react';
+import { Github, Heart, Linkedin, Mail } from 'lucide-react';
 
 export function Header() {
   return (
