@@ -1,16 +1,16 @@
 import { useState, useCallback } from 'react';
 import { Download, Settings, FileType } from 'lucide-react';
 import { EXPORT_FORMATS, DEFAULT_EXPORT_SETTINGS, estimateFileSize, recommendFormat, type ExportSettings } from '../utils/exportFormats';
-import type { ProcessedIcon } from '../types';
+import type { IconSize, CustomSize } from '../types';
 
 interface ExportControlsProps {
-  icons: ProcessedIcon[];
+  selectedSizes: (IconSize | CustomSize)[];
   onExport: (settings: ExportSettings) => void;
   isExporting?: boolean;
   progress?: number;
 }
 
-export function ExportControls({ icons, onExport, isExporting = false, progress = 0 }: ExportControlsProps) {
+export function ExportControls({ selectedSizes, onExport, isExporting = false, progress = 0 }: ExportControlsProps) {
   const [settings, setSettings] = useState<ExportSettings>(DEFAULT_EXPORT_SETTINGS);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
@@ -22,15 +22,15 @@ export function ExportControls({ icons, onExport, isExporting = false, progress 
   }, []);
 
   const selectedFormat = EXPORT_FORMATS[settings.format];
-  const hasTransparency = icons.some(icon => 
-    icon.size.name.toLowerCase().includes('transparent') || 
+  const hasTransparency = selectedSizes.some(size => 
+    size.name.toLowerCase().includes('transparent') || 
     settings.format === 'png'
   );
 
-  const totalEstimatedSize = icons.reduce((total, icon) => {
+  const totalEstimatedSize = selectedSizes.reduce((total, size) => {
     return total + estimateFileSize(
-      icon.size.width,
-      icon.size.height,
+      size.width,
+      size.height,
       settings.format,
       settings.quality
     );
@@ -48,6 +48,7 @@ export function ExportControls({ icons, onExport, isExporting = false, progress 
   };
 
   const handleExport = () => {
+    console.log('Generate Icons button clicked', { selectedSizes: selectedSizes.length, settings });
     onExport(settings);
   };
 
@@ -215,25 +216,25 @@ export function ExportControls({ icons, onExport, isExporting = false, progress 
             </span>
           </div>
           <div className="text-xs text-gray-500">
-            Based on {icons.length} icon{icons.length !== 1 ? 's' : ''} • {selectedFormat?.name} format
+            Based on {selectedSizes.length} icon{selectedSizes.length !== 1 ? 's' : ''} • {selectedFormat?.name} format
           </div>
         </div>
 
-        {/* Export Button */}
-        <button
+        {/* Generate Icons Button */}
+        <button 
           onClick={handleExport}
-          disabled={isExporting || icons.length === 0}
-          className="w-full btn-primary py-4 text-lg font-bold morph-button relative overflow-hidden"
+          disabled={isExporting || selectedSizes.length === 0}
+          className="w-full btn-primary py-4 text-lg font-bold relative overflow-hidden"
         >
           {isExporting ? (
             <div className="flex items-center justify-center space-x-3">
               <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />
-              <span>Exporting... {Math.round(progress)}%</span>
+              <span>Generating Icons... {Math.round(progress)}%</span>
             </div>
           ) : (
             <div className="flex items-center justify-center space-x-2">
               <Download className="h-5 w-5" />
-              <span>Export {icons.length} Icon{icons.length !== 1 ? 's' : ''}</span>
+              <span>Generate {selectedSizes.length} Icon{selectedSizes.length !== 1 ? 's' : ''}</span>
             </div>
           )}
           

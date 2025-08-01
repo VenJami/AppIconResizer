@@ -2,7 +2,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Ensure root is visible */
+  position: relative;
+  z-index: 1;
 }
+
+
 
 /* Hero section animations */
 .hero-container {

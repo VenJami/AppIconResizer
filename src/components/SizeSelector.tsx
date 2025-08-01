@@ -165,16 +165,16 @@ export function SizeSelector({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <label className="block text-sm font-medium text-gray-700">
+        <label className="block text-xl font-bold text-white">
           Select Icon Sizes ({selectedSizes.length} selected)
         </label>
         
         {selectedSizes.length > 0 && (
           <button
             onClick={() => handleDeselectAll()}
-            className="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"
+            className="text-sm text-accent-400 hover:text-accent-300 transition-colors duration-300 font-medium"
           >
             Clear all
           </button>
@@ -182,43 +182,43 @@ export function SizeSelector({
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex space-x-1 bg-gray-100 rounded-lg p-1">
+      <div className="flex space-x-2 bg-dark-800/50 backdrop-blur-sm rounded-2xl p-2 border border-dark-600/30 mt-6">
         <button
           onClick={() => setActiveTab('all')}
-          className={`flex-1 py-2 px-2 text-xs font-medium rounded-md transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all duration-300 ${
             activeTab === 'all'
-              ? 'bg-white text-gray-900 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/30'
+              : 'text-gray-400 hover:text-white hover:bg-dark-700/50'
           }`}
         >
           All ({allSizes.length})
         </button>
         <button
           onClick={() => setActiveTab('ios')}
-          className={`flex-1 py-2 px-2 text-xs font-medium rounded-md transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all duration-300 ${
             activeTab === 'ios'
-              ? 'bg-white text-gray-900 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/30'
+              : 'text-gray-400 hover:text-white hover:bg-dark-700/50'
           }`}
         >
           iOS ({iosSelected}/{iOS_SIZES.sizes.length})
         </button>
         <button
           onClick={() => setActiveTab('android')}
-          className={`flex-1 py-2 px-2 text-xs font-medium rounded-md transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all duration-300 ${
             activeTab === 'android'
-              ? 'bg-white text-gray-900 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/30'
+              : 'text-gray-400 hover:text-white hover:bg-dark-700/50'
           }`}
         >
           Android ({androidSelected}/{ANDROID_SIZES.sizes.length})
         </button>
         <button
           onClick={() => setActiveTab('custom')}
-          className={`flex-1 py-2 px-2 text-xs font-medium rounded-md transition-colors duration-200 ${
+          className={`flex-1 py-3 px-4 text-sm font-semibold rounded-xl transition-all duration-300 ${
             activeTab === 'custom'
-              ? 'bg-white text-gray-900 shadow-sm'
-              : 'text-gray-600 hover:text-gray-900'
+              ? 'bg-gradient-to-r from-accent-500 to-accent-600 text-white shadow-lg shadow-accent-500/30'
+              : 'text-gray-400 hover:text-white hover:bg-dark-700/50'
           }`}
         >
           Custom ({customSelected}/{customSizes.length})
@@ -227,18 +227,18 @@ export function SizeSelector({
 
       {/* Quick Actions */}
       {activeTab !== 'custom' && (
-        <div className="flex space-x-2">
+        <div className="flex space-x-3 mt-6">
           <button
             onClick={() => handleSelectAll(activeTab === 'all' ? undefined : activeTab)}
             disabled={disabled}
-            className="btn-secondary text-xs"
+            className="btn-secondary text-sm px-4 py-2"
           >
             Select {activeTab === 'all' ? 'All' : activeTab === 'ios' ? 'iOS' : activeTab === 'android' ? 'Android' : 'Custom'}
           </button>
           <button
             onClick={() => handleDeselectAll(activeTab === 'all' ? undefined : activeTab)}
             disabled={disabled}
-            className="btn-secondary text-xs"
+            className="btn-secondary text-sm px-4 py-2"
           >
             Deselect {activeTab === 'all' ? 'All' : activeTab === 'ios' ? 'iOS' : activeTab === 'android' ? 'Android' : 'Custom'}
           </button>
@@ -276,62 +276,82 @@ export function SizeSelector({
           disabled={disabled}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+        <div className="grid grid-cols-1 gap-4 max-h-80 overflow-y-auto pr-2 mt-6">
           {displaySizes.map((size, index) => {
-                                                      const isSelected = selectedSizes.some(s => {
-                 if ('isCustom' in size && size.isCustom) {
-                   if ('isCustom' in s && (s as CustomSize).isCustom) {
-                     return (s as CustomSize).id === (size as CustomSize).id;
-                   }
-                   return false; // Custom size not matching non-custom
-                 }
-                 return s.width === size.width && s.height === size.height && s.name === size.name;
-               });
+            const isSelected = selectedSizes.some(s => {
+              if ('isCustom' in size && size.isCustom) {
+                if ('isCustom' in s && (s as CustomSize).isCustom) {
+                  return (s as CustomSize).id === (size as CustomSize).id;
+                }
+                return false; // Custom size not matching non-custom
+              }
+              return s.width === size.width && s.height === size.height && s.name === size.name;
+            });
             const Icon = getSizeIcon(size);
             const platform = getSizePlatform(size);
             
             return (
               <button
-                                 key={`${platform}-${size.width}-${size.height}-${index}-${'isCustom' in size && size.isCustom ? (size as CustomSize).id : ''}`}
+                key={`${platform}-${size.width}-${size.height}-${index}-${'isCustom' in size && size.isCustom ? (size as CustomSize).id : ''}`}
                 onClick={() => handleSizeToggle(size)}
                 disabled={disabled}
                 className={`
-                  relative p-3 rounded-lg border text-left transition-all duration-200
+                  relative p-5 rounded-2xl border-2 text-left transition-all duration-500 group overflow-hidden
                   ${isSelected 
-                    ? 'border-primary-500 bg-primary-50 ring-2 ring-primary-200' 
-                    : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
+                    ? 'border-accent-500/50 bg-gradient-to-br from-accent-500/10 to-accent-600/5 shadow-xl shadow-accent-500/20' 
+                    : 'border-dark-600/50 hover:border-accent-500/30 hover:bg-gradient-to-br hover:from-dark-800/50 hover:to-dark-700/50'
                   }
-                  ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
-                                     ${'isCustom' in size && size.isCustom ? 'border-amber-200 bg-amber-50' : ''}
+                  ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer hover:scale-[1.02]'}
+                  ${'isCustom' in size && size.isCustom ? 'border-amber-500/50 bg-gradient-to-br from-amber-500/10 to-amber-600/5' : ''}
+                  backdrop-blur-sm
                 `}
               >
-                <div className="flex items-center space-x-3">
-                                     <Icon className={`h-5 w-5 ${isSelected ? 'text-primary-600' : 'isCustom' in size && size.isCustom ? 'text-amber-500' : 'text-gray-400'}`} />
+                {/* Background glow effect */}
+                <div className={`absolute inset-0 rounded-2xl transition-opacity duration-500 ${
+                  isSelected 
+                    ? 'bg-gradient-to-br from-accent-500/20 to-transparent opacity-100' 
+                    : 'bg-gradient-to-br from-accent-500/5 to-transparent opacity-0 group-hover:opacity-100'
+                }`} />
+                
+                <div className="relative flex items-center space-x-4">
+                  <div className={`p-3 rounded-xl transition-all duration-500 ${
+                    isSelected 
+                      ? 'bg-gradient-to-br from-accent-500 to-accent-600 shadow-lg shadow-accent-500/30' 
+                      : 'bg-gradient-to-br from-dark-700 to-dark-600 group-hover:bg-gradient-to-br group-hover:from-accent-500/20 group-hover:to-accent-600/20'
+                  }`}>
+                    <Icon className={`h-6 w-6 transition-colors duration-500 ${
+                      isSelected ? 'text-white' : 'text-gray-400 group-hover:text-accent-400'
+                    }`} />
+                  </div>
                   
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <h4 className={`font-medium truncate ${isSelected ? 'text-primary-900' : 'text-gray-900'}`}>
+                    <div className="flex items-center justify-between mb-1">
+                      <h4 className={`font-bold truncate transition-colors duration-300 ${
+                        isSelected ? 'text-white' : 'text-gray-200 group-hover:text-white'
+                      }`}>
                         {size.name}
                       </h4>
                       <span className={`
-                        text-xs font-medium px-2 py-1 rounded-full
+                        text-sm font-bold px-3 py-1 rounded-full transition-all duration-300
                         ${isSelected 
-                          ? 'bg-primary-100 text-primary-700' 
-                                                     : 'isCustom' in size && size.isCustom
-                           ? 'bg-amber-100 text-amber-700'
-                          : 'bg-gray-100 text-gray-600'
+                          ? 'bg-accent-500 text-white shadow-lg shadow-accent-500/30' 
+                          : 'bg-dark-600 text-gray-400 group-hover:bg-accent-500/20 group-hover:text-accent-400'
                         }
                       `}>
                         {size.width}×{size.height}
                       </span>
                     </div>
-                    <p className={`text-sm truncate ${isSelected ? 'text-primary-700' : 'text-gray-500'}`}>
+                    <p className={`text-sm truncate transition-colors duration-300 ${
+                      isSelected ? 'text-accent-300' : 'text-gray-400 group-hover:text-gray-300'
+                    }`}>
                       {platform} • {size.description}
                     </p>
                   </div>
                   
                   {isSelected && (
-                    <Check className="h-5 w-5 text-primary-500 flex-shrink-0" />
+                    <div className="flex items-center justify-center w-6 h-6 bg-gradient-to-br from-accent-500 to-accent-600 rounded-full shadow-lg shadow-accent-500/30">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
                   )}
                 </div>
               </button>
@@ -341,9 +361,10 @@ export function SizeSelector({
       )}
       
       {selectedSizes.length === 0 && (
-        <p className="text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-          Please select at least one icon size
-        </p>
+        <div className="flex items-center space-x-3 text-red-400 bg-red-500/10 border border-red-500/20 rounded-2xl p-4">
+          <div className="w-2 h-2 bg-red-400 rounded-full animate-pulse" />
+          <p className="text-sm font-medium">Please select at least one icon size</p>
+        </div>
       )}
     </div>
   );

@@ -6,6 +6,7 @@ export function useScrollAnimation() {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('revealed');
+          entry.target.classList.add('visible');
         }
       });
     };
@@ -15,12 +16,16 @@ export function useScrollAnimation() {
       rootMargin: '0px 0px -50px 0px'
     });
 
-    // Observe all elements with the reveal-on-scroll class
-    const elements = document.querySelectorAll('.reveal-on-scroll');
-    elements.forEach((element) => observer.observe(element));
+    // Observe all elements with animation classes
+    const revealElements = document.querySelectorAll('.reveal-on-scroll');
+    const animateElements = document.querySelectorAll('.animate-on-scroll');
+    
+    revealElements.forEach((element) => observer.observe(element));
+    animateElements.forEach((element) => observer.observe(element));
 
     return () => {
-      elements.forEach((element) => observer.unobserve(element));
+      revealElements.forEach((element) => observer.unobserve(element));
+      animateElements.forEach((element) => observer.unobserve(element));
     };
   }, []);
 }

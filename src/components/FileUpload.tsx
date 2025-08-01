@@ -116,11 +116,12 @@ export function FileUpload({
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           className={`
-            relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer
-            transition-all duration-300 hover:border-accent-500 hover:bg-accent-500/5
-            ${isDragOver ? 'border-accent-500 bg-accent-500/10 scale-102' : 'border-dark-600'}
+            relative border-2 border-dashed rounded-3xl p-16 text-center cursor-pointer
+            transition-all duration-500 hover:border-accent-500/50 hover:bg-gradient-to-br hover:from-accent-500/5 hover:to-accent-600/5 hover:scale-[1.02]
+            ${isDragOver ? 'border-accent-500 bg-gradient-to-br from-accent-500/10 to-accent-600/10 scale-105 shadow-2xl shadow-accent-500/20' : 'border-dark-600/50 bg-gradient-to-br from-dark-800/50 to-dark-700/50'}
             ${disabled || isLoading ? 'opacity-50 cursor-not-allowed' : ''}
-            ${error ? 'border-red-500/50 bg-red-500/5' : ''}
+            ${error ? 'border-red-500/50 bg-gradient-to-br from-red-500/5 to-red-600/5' : ''}
+            backdrop-blur-sm
           `}
         >
                       <input
@@ -135,15 +136,16 @@ export function FileUpload({
           <div className="flex flex-col items-center space-y-6">
             {isLoading ? (
               <div className="relative">
-                <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-accent-500" />
-                <div className="absolute inset-0 animate-ping rounded-full h-16 w-16 border border-accent-500/20" />
+                <div className="animate-spin rounded-full h-20 w-20 border-4 border-accent-500/30 border-t-accent-500" />
+                <div className="absolute inset-0 animate-ping rounded-full h-20 w-20 border-2 border-accent-500/30" />
+                <div className="absolute inset-2 animate-pulse rounded-full h-16 w-16 bg-accent-500/10" />
               </div>
             ) : (
               <div className="relative group">
-                <Upload className={`h-16 w-16 transition-all duration-300 group-hover:scale-110 ${
+                <Upload className={`h-20 w-20 transition-all duration-500 group-hover:scale-110 ${
                   error ? 'text-red-400' : 'text-accent-400'
                 }`} />
-                <div className="absolute -inset-2 bg-accent-500/20 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute -inset-4 bg-gradient-to-br from-accent-500/20 to-accent-600/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             )}
             

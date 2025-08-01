@@ -7,7 +7,7 @@ export interface IconSize {
 }
 
 export interface PlatformPreset {
-  name: 'iOS' | 'Android';
+  name: 'All' | 'iOS' | 'Android' | 'Apple Watch' | 'Smart Watch' | 'Custom';
   sizes: IconSize[];
 }
 
@@ -26,7 +26,7 @@ export interface ProcessedIcon {
   size: IconSize;
   dataUrl: string;
   blob: Blob;
-  platform: 'iOS' | 'Android';
+  platform: 'All' | 'iOS' | 'Android' | 'Apple Watch' | 'Smart Watch' | 'Custom';
 }
 
 export interface ProcessingStatus {
@@ -63,5 +63,5 @@ export interface ZipPackage {
   totalSize: number;
 }
 
-export type Platform = 'iOS' | 'Android' | 'Custom';
+export type Platform = 'All' | 'iOS' | 'Android' | 'Apple Watch' | 'Smart Watch' | 'Custom';
 export type ProcessingStep = 'validating' | 'processing' | 'packaging' | 'complete' | 'error';

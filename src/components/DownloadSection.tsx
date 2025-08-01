@@ -28,54 +28,54 @@ export function DownloadSection({
   const totalSize = icons.reduce((sum, icon) => sum + icon.blob.size, 0);
   
   return (
-    <div className="bg-white rounded-xl border border-gray-200 p-6">
-      <div className="flex items-center space-x-3 mb-4">
-        <Package className="h-6 w-6 text-primary-500" />
+    <div className="card">
+      <div className="flex items-center space-x-3 mb-6">
+        <Package className="h-6 w-6 text-accent-400" />
         <div>
-          <h3 className="text-lg font-semibold text-gray-900">
-            Download Package
+          <h3 className="text-xl font-bold text-white">
+            Download Your Icons
           </h3>
-          <p className="text-sm text-gray-500">
-            Get all your icons in organized folders
+          <p className="text-sm text-gray-400">
+            Get all your icons organized in a ZIP package
           </p>
         </div>
       </div>
       
       {/* Package Stats */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-        <div className="text-center p-3 bg-gray-50 rounded-lg">
-          <div className="text-2xl font-bold text-gray-900">{icons.length}</div>
-          <div className="text-xs text-gray-500">Total Icons</div>
+        <div className="text-center p-3 bg-dark-800/50 rounded-lg border border-dark-600/30">
+          <div className="text-2xl font-bold text-white">{icons.length}</div>
+          <div className="text-xs text-gray-400">Total Icons</div>
         </div>
         
         {iosCount > 0 && (
-          <div className="text-center p-3 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-900">{iosCount}</div>
-            <div className="text-xs text-blue-600">iOS Sizes</div>
+          <div className="text-center p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+            <div className="text-2xl font-bold text-blue-400">{iosCount}</div>
+            <div className="text-xs text-blue-300">iOS Sizes</div>
           </div>
         )}
         
         {androidCount > 0 && (
-          <div className="text-center p-3 bg-green-50 rounded-lg">
-            <div className="text-2xl font-bold text-green-900">{androidCount}</div>
-            <div className="text-xs text-green-600">Android Sizes</div>
+          <div className="text-center p-3 bg-accent-500/10 rounded-lg border border-accent-500/20">
+            <div className="text-2xl font-bold text-accent-400">{androidCount}</div>
+            <div className="text-xs text-accent-300">Android Sizes</div>
           </div>
         )}
         
-        <div className="text-center p-3 bg-purple-50 rounded-lg">
-          <div className="text-2xl font-bold text-purple-900">
+        <div className="text-center p-3 bg-purple-500/10 rounded-lg border border-purple-500/20">
+          <div className="text-2xl font-bold text-purple-400">
             {formatFileSize(totalSize).split(' ')[0]}
           </div>
-          <div className="text-xs text-purple-600">
+          <div className="text-xs text-purple-300">
             {formatFileSize(totalSize).split(' ')[1]}
           </div>
         </div>
       </div>
       
       {/* Folder Structure Preview */}
-      <div className="bg-gray-50 rounded-lg p-4 mb-6">
-        <h4 className="text-sm font-medium text-gray-700 mb-3">Folder Structure:</h4>
-        <div className="text-sm text-gray-600 space-y-1 font-mono">
+      <div className="bg-dark-800/50 rounded-lg p-4 mb-6 border border-dark-600/30">
+        <h4 className="text-sm font-medium text-gray-300 mb-3">Folder Structure:</h4>
+        <div className="text-sm text-gray-400 space-y-1 font-mono">
           <div>📁 app-icons-{new Date().toISOString().split('T')[0]}.zip</div>
           {iosCount > 0 && (
             <div className="ml-4">
@@ -95,27 +95,27 @@ export function DownloadSection({
         {!zipPackage && !isGenerating ? (
           <button
             onClick={onGenerateZip}
-            className="w-full btn-primary flex items-center justify-center space-x-2 py-3"
+            className="w-full btn-primary flex items-center justify-center space-x-2 py-4 text-lg"
           >
             <Package className="h-5 w-5" />
-            <span>Generate ZIP Package</span>
+            <span>Create ZIP Package</span>
           </button>
         ) : isGenerating ? (
           <div className="w-full">
-            <div className="flex items-center justify-center space-x-3 py-3 px-4 bg-primary-50 text-primary-700 rounded-lg border border-primary-200">
+            <div className="flex items-center justify-center space-x-3 py-4 px-4 bg-accent-500/10 text-accent-400 rounded-lg border border-accent-500/20">
               <Loader2 className="h-5 w-5 animate-spin" />
-              <span className="font-medium">Generating ZIP package...</span>
+              <span className="font-medium">Creating ZIP package...</span>
             </div>
             
             <div className="mt-3">
-              <div className="flex items-center justify-between text-sm text-gray-600 mb-2">
+              <div className="flex items-center justify-between text-sm text-gray-400 mb-2">
                 <span>Progress</span>
                 <span>{Math.round(progress)}%</span>
               </div>
               
-              <div className="w-full bg-gray-200 rounded-full h-2">
+              <div className="w-full bg-dark-700 rounded-full h-2">
                 <div
-                  className="bg-primary-500 h-2 rounded-full transition-all duration-300 ease-out"
+                  className="bg-accent-500 h-2 rounded-full transition-all duration-300 ease-out"
                   style={{ width: `${progress}%` }}
                 />
               </div>
@@ -125,7 +125,7 @@ export function DownloadSection({
           <div className="space-y-3">
             <button
               onClick={() => onDownloadZip(zipPackage)}
-              className="w-full btn-primary flex items-center justify-center space-x-2 py-3"
+              className="w-full btn-primary flex items-center justify-center space-x-2 py-4 text-lg"
             >
               <Download className="h-5 w-5" />
               <span>Download ZIP ({formatFileSize(zipPackage.blob.size)})</span>
@@ -134,9 +134,9 @@ export function DownloadSection({
             <div className="text-center">
               <button
                 onClick={onGenerateZip}
-                className="text-sm text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                className="text-sm text-gray-400 hover:text-accent-400 transition-colors duration-200"
               >
-                Regenerate package
+                Create new package
               </button>
             </div>
           </div>
@@ -144,7 +144,7 @@ export function DownloadSection({
       </div>
       
       {/* Additional Info */}
-      <div className="mt-6 text-xs text-gray-500 space-y-1">
+      <div className="mt-6 text-xs text-gray-400 space-y-1">
         <p>• Icons are organized by platform in separate folders</p>
         <p>• All files use standard naming conventions</p>
         <p>• Ready for immediate use in your development projects</p>
