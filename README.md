@@ -21,7 +21,7 @@
 
 ## 🚀 Live Demo
 
-Visit the live application: [Your Vercel URL here]
+Visit the live application: appiconresizer.com
 
 ## 🎯 Use Cases
 
