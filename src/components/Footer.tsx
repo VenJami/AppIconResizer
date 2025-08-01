@@ -34,7 +34,7 @@ Best regards,
               <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-br from-accent-500 to-accent-600 rounded-lg shadow-lg shadow-accent-500/25 overflow-hidden">
                 <img 
                   src="/logo.png" 
-                  alt="App Icon Resizer Logo" 
+                  alt="App Icon Resizer - Free iOS and Android Icon Generator Tool" 
                   className="h-9 w-9 object-cover rounded-md"
                 />
               </div>
