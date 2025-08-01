@@ -10,8 +10,8 @@ interface FAQItem {
 const FAQ_DATA: FAQItem[] = [
   {
     question: "How does App Icon Resizer work?",
-    answer: "App Icon Resizer works by automatically resizing your original logo to all required iOS and Android icon sizes. Simply drag and drop your 1024x1024px image onto the upload area, select your target platforms (iOS, Android, or both), and download the generated icons in a ZIP file. The process is completely client-side, ensuring your images never leave your device.",
-    keywords: ["how", "works", "resize", "app icon", "automatic", "drag drop"]
+    answer: "App Icon Resizer works by automatically resizing your original logo to all required iOS and Android icon sizes. Simply drag and drop your 1024x1024px image onto the upload area or upload it manually. The image is uploaded and the icons are generated automatically. Activate the instant download option to directly download all icons. Best results are achieved with resolutions of 512x512 or 1024x1024 pixels.",
+    keywords: ["how", "works", "resize", "app icon", "automatic", "drag drop", "upload manually", "instant download", "512x512", "1024x1024"]
   },
   {
     question: "What file formats does App Icon Resizer support?",
@@ -20,8 +20,8 @@ const FAQ_DATA: FAQItem[] = [
   },
   {
     question: "What icon sizes does App Icon Resizer generate?",
-    answer: "App Icon Resizer generates all standard iOS and Android icon sizes. For iOS: 1024x1024px (App Store), 180x180px (iPhone), 167x167px (iPad Pro), 152x152px (iPad), 120x120px (Spotlight), 87x87px (iPad Spotlight), 80x80px (Settings), 60x60px (Settings). For Android: 512x512px (Play Store), 192x192px (High-res), 144x144px (Medium), 96x96px (Low), 72x72px (Extra-low), 48x48px (Legacy).",
-    keywords: ["icon sizes", "iOS", "Android", "1024x1024", "180x180", "512x512"]
+    answer: "App Icon Resizer generates all standard iOS and Android icon sizes. For iOS iPhone/iPad: 29x29, 40x40, 50x50, 57x57, 58x58, 72x72, 76x76, 80x80, 100x100, 114x114, 120x120, 144x144, 152x152, 180x180, 512x512, 1024x1024, 167x167, 87x87, 20x20, 60x60, 16x16, 24x24, 32x32, 48x48, 64x64, 128x128, 256x256 pixels. For iOS Watch: 48x48, 55x55, 80x80, 88x88, 172x172, 196x196 pixels. For Android: 36x36 (LDPI), 48x48 (MDPI), 72x72 (HDPI), 96x96 (XHDPI), 144x144 (XXHDPI), 192x192 (XXHDPI), 512x512 (Google Play Store) pixels.",
+    keywords: ["icon sizes", "iOS", "Android", "iPhone", "iPad", "Watch", "LDPI", "MDPI", "HDPI", "XHDPI", "XXHDPI", "Google Play Store"]
   },
   {
     question: "Is App Icon Resizer free to use?",
@@ -37,6 +37,11 @@ const FAQ_DATA: FAQItem[] = [
     question: "Can I customize the background color of my icons?",
     answer: "Yes, App Icon Resizer allows you to customize the background color of your icons. You can choose from preset colors or use a custom color picker. The tool also supports transparency preservation and padding adjustments to ensure your icons look perfect on all platforms.",
     keywords: ["customize", "background color", "transparency", "padding", "color picker"]
+  },
+  {
+    question: "What are the best practices for app icon resizing?",
+    answer: "For best results, use high-resolution images of 512x512 or 1024x1024 pixels. Activate the instant download option to directly download all icons. The tool supports drag and drop or manual upload. We recommend using PNG format for best quality and transparency support. All icons are generated automatically with zero cropping guarantee.",
+    keywords: ["best practices", "512x512", "1024x1024", "instant download", "drag drop", "manual upload", "PNG", "zero cropping"]
   }
 ];
 

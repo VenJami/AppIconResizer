@@ -6,6 +6,7 @@ import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { FAQSection } from './components/FAQSection';
+import { IconSizesSection } from './components/IconSizesSection';
 import { GoogleAnalytics } from './components/GoogleAnalytics';
 import { PerformanceOptimizer } from './components/PerformanceOptimizer';
 import { InfoSection } from './components/InfoSection';
@@ -450,7 +451,10 @@ function App() {
         </div>
       </main>
       
-                {/* FAQ Section */}
+                {/* Icon Sizes Section */}
+          <IconSizesSection />
+          
+          {/* FAQ Section */}
           <FAQSection />
           
           {/* Footer */}
