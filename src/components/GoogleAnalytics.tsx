@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { config } from '../utils/config';
 
 declare global {
   interface Window {
@@ -14,7 +15,7 @@ export function GoogleAnalytics({ measurementId }: GoogleAnalyticsProps) {
   useEffect(() => {
     // Initialize Google Analytics
     if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('config', measurementId, {
+      window.gtag('config', measurementId || config.gaMeasurementId, {
         page_title: 'App Icon Resizer',
         page_location: window.location.href,
         custom_map: {
@@ -65,7 +66,7 @@ export const trackError = (errorType: string, errorMessage: string) => {
 
 export const trackPageView = (page: string) => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('config', 'G-631GXM1X67', {
+    window.gtag('config', config.gaMeasurementId, {
       page_title: page,
       page_location: window.location.href + '#' + page
     });

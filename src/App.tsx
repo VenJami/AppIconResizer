@@ -29,6 +29,7 @@ import { useScrollAnimation } from './hooks/useScrollAnimation';
 import { useToast } from './hooks/useToast';
 // import { useStaggerAnimation } from './hooks/useAdvancedAnimations';
 import type { ExportSettings } from './utils/exportFormats';
+import { config } from './utils/config';
 
 function App() {
   // State
@@ -203,7 +204,7 @@ function App() {
   
   return (
     <div id="root">
-      <GoogleAnalytics measurementId="G-631GXM1X67" />
+      <GoogleAnalytics measurementId={config.gaMeasurementId} />
       <PerformanceOptimizer />
       <Header />
       
