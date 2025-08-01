@@ -4,6 +4,7 @@ import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 
 // Components
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { InfoSection } from './components/InfoSection';
 import { FileUpload } from './components/FileUpload';
 import { ImageCropper } from './components/ImageCropper';
@@ -444,25 +445,7 @@ function App() {
       </main>
       
       {/* Footer */}
-      <footer className="bg-dark-900/50 border-t border-dark-700/50 mt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center">
-            <div className="mb-6">
-              <h3 className="text-xl font-semibold text-white mb-3">Built with Modern Web Technologies</h3>
-              <p className="text-gray-400 max-w-2xl mx-auto">
-                Powered by React, TypeScript, and cutting-edge web APIs. 
-                All processing happens locally in your browser for <span className="text-accent-400 font-semibold">maximum privacy</span>.
-              </p>
-            </div>
-            
-            <div className="border-t border-dark-700/50 pt-6">
-              <p className="text-sm text-gray-500">
-                © 2025 App Icon Resizer. Open source and free to use.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       
       {/* Toast Notifications */}
       <ToastContainer toasts={toast.toasts} onRemove={toast.removeToast} />
