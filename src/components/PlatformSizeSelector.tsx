@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import type { Platform, IconSize, CustomSize } from '../types';
 import { Smartphone, Tablet, Check, Plus, X } from 'lucide-react';
-import { iOS_SIZES, ANDROID_SIZES } from '../utils/constants';
+import { iOS_SIZES, ANDROID_SIZES, APPLE_WATCH_SIZES, SMART_WATCH_SIZES } from '../utils/constants';
 import { CustomSizeAdder } from './CustomSizeAdder';
 
 interface PlatformSizeSelectorProps {
@@ -48,15 +48,15 @@ export function PlatformSizeSelector({
       name: 'Apple Watch' as Platform,
       icon: Smartphone,
       description: '8 sizes for Apple Watch',
-      sizeCount: 8,
-      sizes: [] // Placeholder for Apple Watch sizes
+      sizeCount: APPLE_WATCH_SIZES.sizes.length,
+      sizes: APPLE_WATCH_SIZES.sizes
     },
     {
       name: 'Smart Watch' as Platform,
       icon: Smartphone,
       description: '6 sizes for Wear OS',
-      sizeCount: 6,
-      sizes: [] // Placeholder for Smart Watch sizes
+      sizeCount: SMART_WATCH_SIZES.sizes.length,
+      sizes: SMART_WATCH_SIZES.sizes
     },
     {
       name: 'Custom' as Platform,

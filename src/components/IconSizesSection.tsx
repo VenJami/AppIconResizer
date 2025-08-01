@@ -1,61 +1,6 @@
 import React from 'react';
 import { Smartphone, Tablet, Watch, Zap, Download } from 'lucide-react';
-
-interface IconSize {
-  width: number;
-  height: number;
-  name: string;
-  description?: string;
-}
-
-const IOS_IPHONE_IPAD_SIZES: IconSize[] = [
-  { width: 29, height: 29, name: "Settings" },
-  { width: 40, height: 40, name: "Spotlight" },
-  { width: 50, height: 50, name: "Settings" },
-  { width: 57, height: 57, name: "Legacy" },
-  { width: 58, height: 58, name: "Settings" },
-  { width: 72, height: 72, name: "iPad Settings" },
-  { width: 76, height: 76, name: "iPad Settings" },
-  { width: 80, height: 80, name: "Spotlight" },
-  { width: 100, height: 100, name: "App Store" },
-  { width: 114, height: 114, name: "iPhone Settings" },
-  { width: 120, height: 120, name: "iPhone Settings" },
-  { width: 144, height: 144, name: "iPad Settings" },
-  { width: 152, height: 152, name: "iPad Settings" },
-  { width: 167, height: 167, name: "iPad Pro Settings" },
-  { width: 180, height: 180, name: "iPhone Settings" },
-  { width: 512, height: 512, name: "App Store" },
-  { width: 1024, height: 1024, name: "App Store" },
-  { width: 87, height: 87, name: "iPad Spotlight" },
-  { width: 20, height: 20, name: "Notification" },
-  { width: 60, height: 60, name: "Settings" },
-  { width: 16, height: 16, name: "Legacy" },
-  { width: 24, height: 24, name: "Legacy" },
-  { width: 32, height: 32, name: "Legacy" },
-  { width: 48, height: 48, name: "Legacy" },
-  { width: 64, height: 64, name: "Legacy" },
-  { width: 128, height: 128, name: "Legacy" },
-  { width: 256, height: 256, name: "Legacy" },
-];
-
-const IOS_WATCH_SIZES: IconSize[] = [
-  { width: 48, height: 48, name: "Watch Settings" },
-  { width: 55, height: 55, name: "Watch Settings" },
-  { width: 80, height: 80, name: "Watch Settings" },
-  { width: 88, height: 88, name: "Watch Settings" },
-  { width: 172, height: 172, name: "Watch Settings" },
-  { width: 196, height: 196, name: "Watch Settings" },
-];
-
-const ANDROID_SIZES: IconSize[] = [
-  { width: 36, height: 36, name: "LDPI", description: "Low Density" },
-  { width: 48, height: 48, name: "MDPI", description: "Medium Density" },
-  { width: 72, height: 72, name: "HDPI", description: "High Density" },
-  { width: 96, height: 96, name: "XHDPI", description: "Extra High Density" },
-  { width: 144, height: 144, name: "XXHDPI", description: "Extra Extra High Density" },
-  { width: 192, height: 192, name: "XXXHDPI", description: "Extra Extra Extra High Density" },
-  { width: 512, height: 512, name: "Google Play Store", description: "Play Store" },
-];
+import { iOS_SIZES, ANDROID_SIZES, APPLE_WATCH_SIZES, SMART_WATCH_SIZES } from '../utils/constants';
 
 export function IconSizesSection() {
   return (
@@ -67,71 +12,84 @@ export function IconSizesSection() {
             Complete Icon Size Coverage
           </h2>
           <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Generate all required icon sizes for iOS iPhone/iPad, iOS Watch, and Android platforms. 
+            Generate all required icon sizes for iOS iPhone/iPad, Apple Watch, Android, and Smart Watch platforms. 
             Best results achieved with 512x512 or 1024x1024 pixel source images.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* iOS iPhone/iPad */}
-          <div className="card-glass border border-dark-600">
-            <div className="p-6">
-              <div className="flex items-center mb-4">
-                <Smartphone className="h-6 w-6 text-accent-400 mr-3" />
-                <h3 className="text-xl font-semibold text-white">iOS. iPhone/iPad.</h3>
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                {IOS_IPHONE_IPAD_SIZES.map((size, index) => (
-                  <div key={index} className="flex justify-between items-center py-1 px-2 bg-dark-700/50 rounded">
-                    <span className="text-gray-300">{size.width}x{size.height}</span>
-                    <span className="text-accent-400 text-xs">{size.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+                 <div className="grid lg:grid-cols-2 gap-8">
+           {/* iOS iPhone/iPad */}
+           <div className="card-glass border border-dark-600">
+             <div className="p-8">
+               <div className="flex items-center mb-6">
+                 <Smartphone className="h-7 w-7 text-accent-400 mr-4" />
+                 <h3 className="text-2xl font-semibold text-white">iOS iPhone/iPad</h3>
+               </div>
+               <div className="grid grid-cols-1 gap-3 text-sm">
+                 {iOS_SIZES.sizes.map((size, index) => (
+                   <div key={index} className="flex justify-between items-center py-3 px-4 bg-dark-700/50 rounded-lg border border-dark-600/30">
+                     <span className="text-gray-300 font-medium">{size.width}×{size.height}</span>
+                     <span className="text-accent-400 text-sm font-medium">{size.name}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </div>
 
-          {/* iOS Watch */}
-          <div className="card-glass border border-dark-600">
-            <div className="p-6">
-              <div className="flex items-center mb-4">
-                <Watch className="h-6 w-6 text-accent-400 mr-3" />
-                <h3 className="text-xl font-semibold text-white">iOS. Watch.</h3>
-              </div>
-              <div className="grid grid-cols-1 gap-2 text-sm">
-                {IOS_WATCH_SIZES.map((size, index) => (
-                  <div key={index} className="flex justify-between items-center py-1 px-2 bg-dark-700/50 rounded">
-                    <span className="text-gray-300">{size.width}x{size.height}</span>
-                    <span className="text-accent-400 text-xs">{size.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+           {/* Android */}
+           <div className="card-glass border border-dark-600">
+             <div className="p-8">
+               <div className="flex items-center mb-6">
+                 <Tablet className="h-7 w-7 text-accent-400 mr-4" />
+                 <h3 className="text-2xl font-semibold text-white">Android</h3>
+               </div>
+               <div className="grid grid-cols-1 gap-3 text-sm">
+                 {ANDROID_SIZES.sizes.map((size, index) => (
+                   <div key={index} className="flex justify-between items-center py-3 px-4 bg-dark-700/50 rounded-lg border border-dark-600/30">
+                     <span className="text-gray-300 font-medium">{size.width}×{size.height}</span>
+                     <span className="text-accent-400 text-sm font-medium">{size.name}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </div>
 
-          {/* Android */}
-          <div className="card-glass border border-dark-600">
-            <div className="p-6">
-              <div className="flex items-center mb-4">
-                <Tablet className="h-6 w-6 text-accent-400 mr-3" />
-                <h3 className="text-xl font-semibold text-white">Android.</h3>
-              </div>
-              <div className="grid grid-cols-1 gap-2 text-sm">
-                {ANDROID_SIZES.map((size, index) => (
-                  <div key={index} className="flex justify-between items-center py-1 px-2 bg-dark-700/50 rounded">
-                    <div>
-                      <span className="text-gray-300">{size.width}x{size.height}</span>
-                      {size.description && (
-                        <span className="text-gray-500 text-xs ml-2">({size.description})</span>
-                      )}
-                    </div>
-                    <span className="text-accent-400 text-xs">{size.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+           {/* Apple Watch */}
+           <div className="card-glass border border-dark-600">
+             <div className="p-8">
+               <div className="flex items-center mb-6">
+                 <Watch className="h-7 w-7 text-accent-400 mr-4" />
+                 <h3 className="text-2xl font-semibold text-white">Apple Watch</h3>
+               </div>
+               <div className="grid grid-cols-1 gap-3 text-sm">
+                 {APPLE_WATCH_SIZES.sizes.map((size, index) => (
+                   <div key={index} className="flex justify-between items-center py-3 px-4 bg-dark-700/50 rounded-lg border border-dark-600/30">
+                     <span className="text-gray-300 font-medium">{size.width}×{size.height}</span>
+                     <span className="text-accent-400 text-sm font-medium">{size.name}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </div>
+
+           {/* Smart Watch */}
+           <div className="card-glass border border-dark-600">
+             <div className="p-8">
+               <div className="flex items-center mb-6">
+                 <Watch className="h-7 w-7 text-accent-400 mr-4" />
+                 <h3 className="text-2xl font-semibold text-white">Smart Watch</h3>
+               </div>
+               <div className="grid grid-cols-1 gap-3 text-sm">
+                 {SMART_WATCH_SIZES.sizes.map((size, index) => (
+                   <div key={index} className="flex justify-between items-center py-3 px-4 bg-dark-700/50 rounded-lg border border-dark-600/30">
+                     <span className="text-gray-300 font-medium">{size.width}×{size.height}</span>
+                     <span className="text-accent-400 text-sm font-medium">{size.name}</span>
+                   </div>
+                 ))}
+               </div>
+             </div>
+           </div>
+         </div>
 
         {/* CTA Section */}
         <div className="mt-12 text-center">

@@ -14,7 +14,7 @@ export function IconSizesPage() {
               Complete Guide to App Icon Sizes
             </h1>
             <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-              Everything you need to know about iOS, Android, and Apple Watch icon dimensions
+              Everything you need to know about iOS, Android, Apple Watch, and Smart Watch icon dimensions
             </p>
           </div>
         </div>

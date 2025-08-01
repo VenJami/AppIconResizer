@@ -257,9 +257,129 @@ export const ANDROID_SIZES: PlatformPreset = {
   ]
 };
 
+// Apple Watch App Icon Sizes (Official Apple specifications)
+export const APPLE_WATCH_SIZES: PlatformPreset = {
+  name: 'Apple Watch',
+  sizes: [
+    // App Store Icon
+    {
+      width: 1024,
+      height: 1024,
+      name: 'App Store Icon',
+      description: 'Required for App Store submission',
+      filename: 'AppIcon-AppStore-1024x1024.png'
+    },
+    
+    // Home Screen Icons
+    {
+      width: 172,
+      height: 172,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x',
+      filename: 'AppIcon-HomeScreen-172x172.png'
+    },
+    {
+      width: 88,
+      height: 88,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (38mm)',
+      filename: 'AppIcon-HomeScreen-88x88.png'
+    },
+    {
+      width: 87,
+      height: 87,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (42mm)',
+      filename: 'AppIcon-HomeScreen-87x87.png'
+    },
+    {
+      width: 80,
+      height: 80,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (40mm)',
+      filename: 'AppIcon-HomeScreen-80x80.png'
+    },
+    {
+      width: 92,
+      height: 92,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (44mm)',
+      filename: 'AppIcon-HomeScreen-92x92.png'
+    },
+    {
+      width: 102,
+      height: 102,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (41mm)',
+      filename: 'AppIcon-HomeScreen-102x102.png'
+    },
+    {
+      width: 120,
+      height: 120,
+      name: 'Home Screen (@2x)',
+      description: 'Apple Watch home screen @2x (45mm)',
+      filename: 'AppIcon-HomeScreen-120x120.png'
+    }
+  ]
+};
+
+// Smart Watch (Wear OS) App Icon Sizes (Official Google specifications)
+export const SMART_WATCH_SIZES: PlatformPreset = {
+  name: 'Smart Watch',
+  sizes: [
+    // Play Store Icon
+    {
+      width: 512,
+      height: 512,
+      name: 'Play Store Icon',
+      description: 'Required for Google Play Store',
+      filename: 'ic_launcher-playstore-512x512.png'
+    },
+    
+    // Wear OS Launcher Icons
+    {
+      width: 192,
+      height: 192,
+      name: 'Wear OS Launcher (@2x)',
+      description: 'Wear OS launcher icon @2x',
+      filename: 'ic_launcher-wear-192x192.png'
+    },
+    {
+      width: 96,
+      height: 96,
+      name: 'Wear OS Launcher (@1x)',
+      description: 'Wear OS launcher icon @1x',
+      filename: 'ic_launcher-wear-96x96.png'
+    },
+    {
+      width: 48,
+      height: 48,
+      name: 'Wear OS Launcher (@0.5x)',
+      description: 'Wear OS launcher icon @0.5x',
+      filename: 'ic_launcher-wear-48x48.png'
+    },
+    {
+      width: 24,
+      height: 24,
+      name: 'Wear OS Launcher (@0.25x)',
+      description: 'Wear OS launcher icon @0.25x',
+      filename: 'ic_launcher-wear-24x24.png'
+    },
+    {
+      width: 16,
+      height: 16,
+      name: 'Wear OS Launcher (@0.125x)',
+      description: 'Wear OS launcher icon @0.125x',
+      filename: 'ic_launcher-wear-16x16.png'
+    }
+  ]
+};
+
 export const PLATFORM_PRESETS = {
   iOS: iOS_SIZES,
-  Android: ANDROID_SIZES
+  Android: ANDROID_SIZES,
+  'Apple Watch': APPLE_WATCH_SIZES,
+  'Smart Watch': SMART_WATCH_SIZES
 };
 
 // File validation constants
