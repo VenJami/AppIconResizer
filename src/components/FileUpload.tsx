@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Upload, X, AlertCircle, FileText, FileImage, File } from 'lucide-react';
 import { formatFileSize } from '../utils/imageUtils';
+import { trackFileUpload, trackError } from './GoogleAnalytics';
 
 // Supported file types
 const SUPPORTED_FORMATS: Record<string, { name: string; icon: any; color: string }> = {
@@ -66,8 +67,10 @@ export function FileUpload({
       const error = validateFile(file);
       if (error) {
         onError?.(error);
+        trackError('file_validation', error);
         return;
       }
+      trackFileUpload(file.type, file.size);
       onFileSelect(file);
     }
   }, [onFileSelect, disabled, isLoading, validateFile]);
@@ -91,8 +94,10 @@ export function FileUpload({
       const error = validateFile(file);
       if (error) {
         onError?.(error);
+        trackError('file_validation', error);
         return;
       }
+      trackFileUpload(file.type, file.size);
       onFileSelect(file);
     }
   }, [onFileSelect, validateFile]);

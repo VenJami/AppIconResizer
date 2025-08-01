@@ -5,6 +5,8 @@ import { iOS_SIZES, ANDROID_SIZES, PROCESSING_CONFIG } from './utils/constants';
 // Components
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
+import { GoogleAnalytics } from './components/GoogleAnalytics';
+import { PerformanceOptimizer } from './components/PerformanceOptimizer';
 import { InfoSection } from './components/InfoSection';
 import { FileUpload } from './components/FileUpload';
 import { ImageCropper } from './components/ImageCropper';
@@ -200,6 +202,8 @@ function App() {
   
   return (
     <div id="root">
+      <GoogleAnalytics measurementId="G-XXXXXXXXXX" />
+      <PerformanceOptimizer />
       <Header />
       
       {/* Particle System - Adding CSS-only animated background */}
