@@ -488,6 +488,42 @@ export function HomePage() {
         <FAQSection />
       </div>
       
+      {/* Internal Links Section */}
+      <section className="py-12 bg-dark-900 border-t border-dark-700">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-white mb-4">App Icon Resizer Resources</h2>
+            <p className="text-gray-400">Explore our comprehensive guides and resources</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-6">
+            <div className="text-center">
+              <a href="/icon-sizes" className="block p-6 bg-dark-800 rounded-xl border border-dark-600 hover:border-accent-500/50 transition-all duration-200 group">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-accent-400 transition-colors">Icon Sizes</h3>
+                <p className="text-gray-400 text-sm">Complete reference for all platform icon sizes</p>
+              </a>
+            </div>
+            <div className="text-center">
+              <a href="/how-it-works" className="block p-6 bg-dark-800 rounded-xl border border-dark-600 hover:border-accent-500/50 transition-all duration-200 group">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-accent-400 transition-colors">How It Works</h3>
+                <p className="text-gray-400 text-sm">Step-by-step guide to using the tool</p>
+              </a>
+            </div>
+            <div className="text-center">
+              <a href="/file-formats" className="block p-6 bg-dark-800 rounded-xl border border-dark-600 hover:border-accent-500/50 transition-all duration-200 group">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-accent-400 transition-colors">File Formats</h3>
+                <p className="text-gray-400 text-sm">Supported image formats and requirements</p>
+              </a>
+            </div>
+            <div className="text-center">
+              <a href="/faq" className="block p-6 bg-dark-800 rounded-xl border border-dark-600 hover:border-accent-500/50 transition-all duration-200 group">
+                <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-accent-400 transition-colors">FAQ</h3>
+                <p className="text-gray-400 text-sm">Frequently asked questions and answers</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SEO Links Section */}
       <section className="py-8 bg-dark-950 border-t border-dark-700">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -499,6 +535,8 @@ export function HomePage() {
                 <li><a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors">How App Icon Resizer Works</a></li>
                 <li><a href="/file-formats" className="text-accent-400 hover:text-accent-300 transition-colors">Supported File Formats</a></li>
                 <li><a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors">Frequently Asked Questions</a></li>
+                <li><a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors">iOS and Android Icon Sizes</a></li>
+                <li><a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors">App Icon Generator Guide</a></li>
               </ul>
             </div>
             <div>
@@ -508,6 +546,8 @@ export function HomePage() {
                 <li><a href="https://developer.android.com/guide/practices/ui_guidelines/icon_design" target="_blank" rel="noopener noreferrer" className="text-accent-400 hover:text-accent-300 transition-colors">Android Icon Design Guidelines</a></li>
                 <li><a href="https://developer.apple.com/design/human-interface-guidelines/watchos/icons" target="_blank" rel="noopener noreferrer" className="text-accent-400 hover:text-accent-300 transition-colors">Apple Watch Icon Guidelines</a></li>
                 <li><a href="https://developer.android.com/guide/practices/ui_guidelines/icon_design_adaptive" target="_blank" rel="noopener noreferrer" className="text-accent-400 hover:text-accent-300 transition-colors">Android Adaptive Icons</a></li>
+                <li><a href="https://developer.android.com/guide/practices/ui_guidelines/icon_design_launcher" target="_blank" rel="noopener noreferrer" className="text-accent-400 hover:text-accent-300 transition-colors">Android Launcher Icons</a></li>
+                <li><a href="https://www.w3.org/TR/appmanifest/" target="_blank" rel="noopener noreferrer" className="text-accent-400 hover:text-accent-300 transition-colors">Web App Manifest</a></li>
               </ul>
             </div>
           </div>

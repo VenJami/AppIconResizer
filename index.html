@@ -58,6 +58,16 @@
     <link rel="preconnect" href="https://www.google-analytics.com" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" />
+    <link rel="preload" href="/src/App.tsx" as="script" />
+    
+    <!-- DNS prefetch for external links -->
+    <link rel="dns-prefetch" href="//developer.apple.com" />
+    <link rel="dns-prefetch" href="//developer.android.com" />
+    <link rel="dns-prefetch" href="//www.w3.org" />
+    <link rel="dns-prefetch" href="//developer.mozilla.org" />
+    
     <!-- Structured Data -->
     <script type="application/ld+json">
     {
@@ -240,6 +250,10 @@
         <a href="/how-it-works">How It Works</a>
         <a href="/file-formats">Supported File Formats</a>
         <a href="/faq">Frequently Asked Questions</a>
+        <a href="/icon-sizes">iOS and Android Icon Sizes</a>
+        <a href="/how-it-works">App Icon Generator Guide</a>
+        <a href="/file-formats">Image Format Support</a>
+        <a href="/faq">Common Questions</a>
         <a href="https://developer.apple.com/design/human-interface-guidelines/app-icons">Apple Icon Guidelines</a>
         <a href="https://developer.android.com/guide/practices/ui_guidelines/icon_design">Android Icon Guidelines</a>
         <a href="https://developer.apple.com/design/human-interface-guidelines/watchos/icons">Apple Watch Icon Guidelines</a>
