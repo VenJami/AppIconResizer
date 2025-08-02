@@ -208,6 +208,29 @@ export function InfoSection() {
               <li>• Choose background colors that complement your design</li>
             </ul>
           </div>
+          
+          {/* Additional Resources */}
+          <div className="bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/20 rounded-xl p-6">
+            <h4 className="font-semibold text-blue-300 mb-4 text-lg">📚 Learn More</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <h5 className="font-medium text-white mb-2">Platform Guides</h5>
+                <ul className="text-gray-300 space-y-1 text-sm">
+                  <li><a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors">• Complete Icon Size Reference</a></li>
+                  <li><a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors">• Detailed How It Works Guide</a></li>
+                  <li><a href="/file-formats" className="text-accent-400 hover:text-accent-300 transition-colors">• Supported File Formats</a></li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-medium text-white mb-2">Help & Support</h5>
+                <ul className="text-gray-300 space-y-1 text-sm">
+                  <li><a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors">• Frequently Asked Questions</a></li>
+                  <li><a href="#upload-section" className="text-accent-400 hover:text-accent-300 transition-colors">• Start Creating Icons</a></li>
+                  <li><a href="#icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors">• View Icon Sizes</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

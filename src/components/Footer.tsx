@@ -55,13 +55,23 @@ Best regards,
             <h4 className="text-lg font-semibold text-white">Quick Links</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="#features" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
-                  Features
+                <a href="/icon-sizes" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
+                  Icon Sizes
                 </a>
               </li>
               <li>
-                <a href="#upload-section" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
-                  Get Started
+                <a href="/how-it-works" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
+                  How It Works
+                </a>
+              </li>
+              <li>
+                <a href="/file-formats" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
+                  File Formats
+                </a>
+              </li>
+              <li>
+                <a href="/faq" className="text-gray-400 hover:text-accent-400 transition-colors duration-200">
+                  FAQ
                 </a>
               </li>
               <li>
@@ -148,12 +158,53 @@ Best regards,
           </div>
         </div>
 
+        {/* External Resources */}
+        <div className="mt-8 pt-6 border-t border-dark-700">
+          <div className="text-center space-y-4">
+            <h5 className="text-sm font-medium text-gray-400">Developer Resources</h5>
+            <div className="flex flex-wrap justify-center gap-4 text-xs">
+              <a 
+                href="https://developer.apple.com/design/human-interface-guidelines/app-icons" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-accent-400 transition-colors"
+              >
+                Apple Icon Guidelines
+              </a>
+              <a 
+                href="https://developer.android.com/guide/practices/ui_guidelines/icon_design" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-accent-400 transition-colors"
+              >
+                Android Icon Guidelines
+              </a>
+              <a 
+                href="https://www.w3.org/TR/appmanifest/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-accent-400 transition-colors"
+              >
+                Web App Manifest
+              </a>
+              <a 
+                href="https://developer.mozilla.org/en-US/docs/Web/Manifest" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-500 hover:text-accent-400 transition-colors"
+              >
+                MDN Web Manifest
+              </a>
+            </div>
+          </div>
+        </div>
+
         {/* Copyright */}
-                 <div className="mt-8 pt-6 border-t border-dark-700 text-center">
-           <p className="text-gray-500 text-sm">
-             © 2025 Raven Jaminal. All rights reserved. App Icon Resizer is open source and available under the MIT License.
-           </p>
-         </div>
+        <div className="mt-6 pt-6 border-t border-dark-700 text-center">
+          <p className="text-gray-500 text-sm">
+            © 2025 Raven Jaminal. All rights reserved. App Icon Resizer is open source and available under the MIT License.
+          </p>
+        </div>
       </div>
     </footer>
   );
