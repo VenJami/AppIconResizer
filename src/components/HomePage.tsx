@@ -256,6 +256,14 @@ export function HomePage() {
              <a href="#info-section" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
                Learn More
              </a>
+             <span className="text-gray-500">•</span>
+             <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+               Icon Size Guide
+             </a>
+             <span className="text-gray-500">•</span>
+             <a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+               Tool Guide
+             </a>
            </div>
            
            {/* Social Sharing */}
@@ -372,6 +380,12 @@ export function HomePage() {
                 <a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
                   See how the tool works →
                 </a>
+                <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+                  Read frequently asked questions →
+                </a>
+                <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+                  Check iOS and Android icon requirements →
+                </a>
               </div>
             </div>
 
@@ -465,9 +479,15 @@ export function HomePage() {
         {/* Info Section */}
         <section id="info-section" className="py-16 bg-dark-900">
           <InfoSection />
-          <div className="text-center mt-8">
-            <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+          <div className="text-center mt-8 space-y-2">
+            <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
               View all frequently asked questions →
+            </a>
+            <a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+              Detailed how it works guide →
+            </a>
+            <a href="/file-formats" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+              Complete file format reference →
             </a>
           </div>
         </section>
@@ -476,9 +496,15 @@ export function HomePage() {
       {/* Icon Sizes Section */}
       <div id="icon-sizes">
         <IconSizesSection />
-        <div className="text-center py-8 bg-dark-800">
-          <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+        <div className="text-center py-8 bg-dark-800 space-y-2">
+          <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
             View complete icon size reference →
+          </a>
+          <a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+            Learn how the icon generator works →
+          </a>
+          <a href="/file-formats" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+            See supported image formats →
           </a>
         </div>
       </div>
@@ -486,6 +512,17 @@ export function HomePage() {
       {/* FAQ Section */}
       <div id="faq">
         <FAQSection />
+        <div className="text-center py-8 bg-dark-900 space-y-2">
+          <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+            View complete FAQ page →
+          </a>
+          <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+            Browse all icon sizes →
+          </a>
+          <a href="/how-it-works" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm block">
+            Step-by-step guide →
+          </a>
+        </div>
       </div>
       
       {/* Internal Links Section */}
