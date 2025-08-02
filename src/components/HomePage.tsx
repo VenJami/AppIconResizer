@@ -248,6 +248,14 @@ export function HomePage() {
              <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
                FAQ
              </a>
+             <span className="text-gray-500">•</span>
+             <a href="#upload-section" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+               Start Creating
+             </a>
+             <span className="text-gray-500">•</span>
+             <a href="#info-section" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+               Learn More
+             </a>
            </div>
            
            {/* Social Sharing */}
@@ -309,6 +317,11 @@ export function HomePage() {
               <p className="text-xl text-gray-400 max-w-2xl mx-auto">
                 Drag and drop your logo or click to browse. We support PNG, JPG, JPEG, SVG, WebP, and GIF formats.
               </p>
+              <div className="mt-4">
+                <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+                  View complete list of icon sizes →
+                </a>
+              </div>
             </div>
 
             <FileUpload 
