@@ -205,15 +205,15 @@ export function HomePage() {
            </p>
            
            <div className="flex flex-wrap justify-center gap-4 mb-12 animate-on-scroll">
-             <div className="flex items-center space-x-2 bg-gradient-to-r from-accent-500/20 to-accent-600/20 text-accent-400 px-6 py-3 rounded-full border border-accent-500/30 hover-lift backdrop-blur-sm">
+             <a href="/icon-sizes" className="flex items-center space-x-2 bg-gradient-to-r from-accent-500/20 to-accent-600/20 text-accent-400 px-6 py-3 rounded-full border border-accent-500/30 hover-lift backdrop-blur-sm transition-all duration-200">
                <span className="text-sm font-bold">41+ Icon Sizes</span>
-             </div>
-             <div className="flex items-center space-x-2 bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-400 px-6 py-3 rounded-full border border-blue-500/30 hover-lift backdrop-blur-sm">
+             </a>
+             <a href="/how-it-works" className="flex items-center space-x-2 bg-gradient-to-r from-blue-500/20 to-blue-600/20 text-blue-400 px-6 py-3 rounded-full border border-blue-500/30 hover-lift backdrop-blur-sm transition-all duration-200">
                <span className="text-sm font-bold">Instant Processing</span>
-             </div>
-             <div className="flex items-center space-x-2 bg-gradient-to-r from-purple-500/20 to-purple-600/20 text-purple-400 px-6 py-3 rounded-full border border-purple-500/30 hover-lift backdrop-blur-sm">
+             </a>
+             <a href="/file-formats" className="flex items-center space-x-2 bg-gradient-to-r from-purple-500/20 to-purple-600/20 text-purple-400 px-6 py-3 rounded-full border border-purple-500/30 hover-lift backdrop-blur-sm transition-all duration-200">
                <span className="text-sm font-bold">Zero Cropping</span>
-             </div>
+             </a>
            </div>
            
            <div className="flex flex-col sm:flex-row gap-6 justify-center animate-on-scroll">
@@ -414,12 +414,22 @@ export function HomePage() {
         {/* Info Section */}
         <section id="info-section" className="py-16 bg-dark-900">
           <InfoSection />
+          <div className="text-center mt-8">
+            <a href="/faq" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+              View all frequently asked questions →
+            </a>
+          </div>
         </section>
       </main>
 
       {/* Icon Sizes Section */}
       <div id="icon-sizes">
         <IconSizesSection />
+        <div className="text-center py-8 bg-dark-800">
+          <a href="/icon-sizes" className="text-accent-400 hover:text-accent-300 transition-colors duration-200 text-sm">
+            View complete icon size reference →
+          </a>
+        </div>
       </div>
       
       {/* FAQ Section */}
