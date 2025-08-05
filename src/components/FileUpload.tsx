@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { Upload, X, AlertCircle, FileText, FileImage, File } from 'lucide-react';
 import { formatFileSize } from '../utils/imageUtils';
 import { trackFileUpload, trackError } from './GoogleAnalytics';
+import { useSentry } from '../hooks/useSentry';
 
 // Supported file types
 const SUPPORTED_FORMATS: Record<string, { name: string; icon: any; color: string }> = {
@@ -40,6 +41,7 @@ export function FileUpload({
   onError
 }: FileUploadProps) {
   const [isDragOver, setIsDragOver] = useState(false);
+  const { captureException, addBreadcrumb } = useSentry();
   
   const validateFile = useCallback((file: File) => {
     // Check file size
@@ -64,16 +66,41 @@ export function FileUpload({
     const files = Array.from(e.dataTransfer.files);
     if (files.length > 0) {
       const file = files[0];
+      
+      // Add breadcrumb for file drop
+      addBreadcrumb({
+        category: 'file',
+        message: 'File dropped via drag and drop',
+        level: 'info',
+        data: {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type,
+        },
+      });
+      
       const error = validateFile(file);
       if (error) {
         onError?.(error);
         trackError('file_validation', error);
+        
+        // Report validation error to Sentry
+        captureException(new Error(error), {
+          file: {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+          },
+          validation: {
+            method: 'drag_drop',
+          },
+        });
         return;
       }
       trackFileUpload(file.type, file.size);
       onFileSelect(file);
     }
-  }, [onFileSelect, disabled, isLoading, validateFile]);
+  }, [onFileSelect, disabled, isLoading, validateFile, captureException, addBreadcrumb]);
   
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -91,16 +118,41 @@ export function FileUpload({
     const files = Array.from(e.target.files || []);
     if (files.length > 0) {
       const file = files[0];
+      
+      // Add breadcrumb for file selection
+      addBreadcrumb({
+        category: 'file',
+        message: 'File selected via file input',
+        level: 'info',
+        data: {
+          fileName: file.name,
+          fileSize: file.size,
+          fileType: file.type,
+        },
+      });
+      
       const error = validateFile(file);
       if (error) {
         onError?.(error);
         trackError('file_validation', error);
+        
+        // Report validation error to Sentry
+        captureException(new Error(error), {
+          file: {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+          },
+          validation: {
+            method: 'file_input',
+          },
+        });
         return;
       }
       trackFileUpload(file.type, file.size);
       onFileSelect(file);
     }
-  }, [onFileSelect, validateFile]);
+  }, [onFileSelect, validateFile, captureException, addBreadcrumb]);
   
   const handleClick = useCallback(() => {
     if (disabled || isLoading) return;
