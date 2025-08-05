@@ -32,3 +32,10 @@ dist-ssr
 .env.test.local
 .env.production.local
 # Note: .env.example is NOT ignored and should be committed to the repository
+
+# Setup and configuration files (not needed in public repo)
+install.sh
+GA_SETUP.md
+SENTRY_SETUP.md
+SEARCH_CONSOLE_SETUP.md
+SEO.md
